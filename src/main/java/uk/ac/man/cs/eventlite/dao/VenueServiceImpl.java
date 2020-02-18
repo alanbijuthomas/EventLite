@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -21,20 +22,25 @@ public class VenueServiceImpl implements VenueService {
 
 	private final static String DATA = "data/venues.json";
 
+	@Autowired
+	private VenueRepository venueRepositry;
+	
 	@Override
 	public long count() {
+		/*
 		long count = 0;
 		Iterator<Venue> i = findAll().iterator();
 
 		for (; i.hasNext(); count++) {
 			i.next();
 		}
-
-		return count;
+		*/
+		return venueRepositry.count();
 	}
 
 	@Override
 	public Iterable<Venue> findAll() {
+		/*
 		Iterable<Venue> venues;
 
 		try {
@@ -47,8 +53,14 @@ public class VenueServiceImpl implements VenueService {
 			log.error("Exception while reading file '" + DATA + "': " + e);
 			venues = Collections.emptyList();
 		}
-
-		return venues;
+		*/
+		return venueRepositry.findAll();
+	}
+	
+	@Override
+	public <V extends Venue> V save(V venue)
+	{
+		return venueRepositry.save(venue);
 	}
 
 }
