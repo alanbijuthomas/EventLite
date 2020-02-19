@@ -7,4 +7,6 @@ public interface EventService extends EventRepository {
 	public long count();
 
 	public Iterable<Event> findAll();
+	
+	public <S extends Event> S save(S event);
 }

@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Event {
 	
 	@Id
+	@GeneratedValue
 	private long id;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
