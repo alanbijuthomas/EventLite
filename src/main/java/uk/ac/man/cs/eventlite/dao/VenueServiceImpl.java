@@ -23,7 +23,7 @@ public class VenueServiceImpl implements VenueService {
 	private final static String DATA = "data/venues.json";
 
 	@Autowired
-	private VenueRepository venueRepositry;
+	private VenueRepository venueRepository;
 	
 	@Override
 	public long count() {
@@ -35,7 +35,7 @@ public class VenueServiceImpl implements VenueService {
 			i.next();
 		}
 		*/
-		return venueRepositry.count();
+		return venueRepository.count();
 	}
 
 	@Override
@@ -54,13 +54,13 @@ public class VenueServiceImpl implements VenueService {
 			venues = Collections.emptyList();
 		}
 		*/
-		return venueRepositry.findAll();
+		return venueRepository.findAll();
 	}
 	
 	@Override
 	public <V extends Venue> V save(V venue)
 	{
-		return venueRepositry.save(venue);
+		return venueRepository.save(venue);
 	}
 
 }
