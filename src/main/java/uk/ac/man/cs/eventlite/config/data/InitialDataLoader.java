@@ -26,20 +26,24 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
-
-		// Build and save initial models here.
-		Venue testVenueOne = new Venue();
 		
-		// Change characteristics
-		testVenueOne.setId(1);
-		testVenueOne.setName("testVenueOne");
-		testVenueOne.setCapacity(1);
-				
-		// Save Venue
-		venueService.save(testVenueOne);
-		
+	
 		if (eventService.count() > 0) {
 			log.info("Database already populated. Skipping data initialization.");
+			return;
+		}
+		else
+		{
+			// Build and save initial models here.
+			Venue testVenueOne = new Venue();
+						
+			// Change characteristics
+			testVenueOne.setId(1);
+			testVenueOne.setName("testVenueOne");
+			testVenueOne.setCapacity(1);
+								
+			// Save Venue
+			venueService.save(testVenueOne);
 			return;
 		}
 
