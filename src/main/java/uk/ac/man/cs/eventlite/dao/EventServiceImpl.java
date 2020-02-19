@@ -1,12 +1,15 @@
 package uk.ac.man.cs.eventlite.dao;
 
+// Remove unused packages when ready
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
@@ -18,38 +21,73 @@ import uk.ac.man.cs.eventlite.entities.Event;
 @Service
 public class EventServiceImpl implements EventService {
 
+	@Autowired
+	private EventRepository eventRepository;
+	
 	private final static Logger log = LoggerFactory.getLogger(EventServiceImpl.class);
 
 	private final static String DATA = "data/events.json";
-
+	
 	@Override
 	public long count() {
-		long count = 0;
-		Iterator<Event> i = findAll().iterator();
-
-		for (; i.hasNext(); count++) {
-			i.next();
-		}
-
-		return count;
+		return(eventRepository.count());
 	}
 
 	@Override
 	public Iterable<Event> findAll() {
-		ArrayList<Event> events = new ArrayList<Event>();
+		return(eventRepository.findAll());
+	}
 
-		try {
-			ObjectMapper mapper = new ObjectMapper();
-			mapper.registerModule(new JavaTimeModule());
+	@Override
+	public <S extends Event> S save(S entity) {
+		return(eventRepository.save(entity));
+	}
 
-			InputStream in = new ClassPathResource(DATA).getInputStream();
+	@Override
+	public <S extends Event> Iterable<S> saveAll(Iterable<S> entities) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-			events = mapper.readValue(in, mapper.getTypeFactory().constructCollectionType(List.class, Event.class));
-		} catch (Exception e) {
-			log.error("Exception while reading file '" + DATA + "': " + e);
-			// If we can't read the file, then the event list is empty...
-		}
+	@Override
+	public Optional<Event> findById(Long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-		return events;
+	@Override
+	public boolean existsById(Long id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Iterable<Event> findAllById(Iterable<Long> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteById(Long id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Event entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAll(Iterable<? extends Event> entities) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		
 	}
 }
