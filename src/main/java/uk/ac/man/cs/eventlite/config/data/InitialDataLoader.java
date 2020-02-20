@@ -37,23 +37,23 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			log.info("Database already populated. Skipping data initialization.");
 			return;
 		} else {
+			
+			// Create example venue and add to database
+			Venue testVenueOne = new Venue();
+			testVenueOne.setName("testVenueOne");
+			testVenueOne.setCapacity(1);
+			venueService.save(testVenueOne);
+			log.info("Attempting to add an example venue.");
+			
 			// Create example event and add to database
 			Event exampleEvent = new Event();
 			exampleEvent.setId(1);
 			exampleEvent.setName("Example Event");
 			exampleEvent.setTime(LocalTime.now());
 			exampleEvent.setDate(LocalDate.now());
-			exampleEvent.setVenue(1);
+			exampleEvent.setVenue(testVenueOne);
 			eventService.save(exampleEvent);
 			log.info("Attempting to add an example event.");
-			
-			// Create example venue and add to database
-			Venue testVenueOne = new Venue();
-			testVenueOne.setId(1);
-			testVenueOne.setName("testVenueOne");
-			testVenueOne.setCapacity(1);
-			venueService.save(testVenueOne);
-			log.info("Attempting to add an example venue.");
 			return;
 		}
 
