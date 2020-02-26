@@ -7,6 +7,12 @@
 </head>
 <body>
   <div layout:fragment="content">
+  	<div sec:authorize="isAuthenticated()">
+      <a class="btn btn-primary" role="button" th:href="@{/add-event}">
+        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add event
+      </a>
+    </div>
+  
     <h1>All events</h1>
 
     <table class="table table-striped table-hover">
