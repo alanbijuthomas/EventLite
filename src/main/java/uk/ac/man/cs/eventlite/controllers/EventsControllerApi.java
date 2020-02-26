@@ -40,7 +40,7 @@ public class EventsControllerApi {
 
 	private Resources<Resource<Event>> eventToResource(Iterable<Event> events) {
 		Link selfLink = linkTo(methodOn(EventsControllerApi.class).getAllEvents()).withSelfRel();
-
+		
 		List<Resource<Event>> resources = new ArrayList<Resource<Event>>();
 		for (Event event : events) {
 			resources.add(eventToResource(event));

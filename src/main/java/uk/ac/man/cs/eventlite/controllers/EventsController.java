@@ -23,5 +23,6 @@ public class EventsController {
 
 		return "events/index";
 	}
-
+	
+	
 }

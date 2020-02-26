@@ -25,7 +25,13 @@
         <button type="submit" class="btn btn-warning"><i class="fas fa-sign-out-alt" aria-hidden="true"></i> Sign out</button>
       </form>
     </div>
-
+    
+    <div sec:authorize="isAuthenticated()">
+      <a class="btn btn-primary" role="button" th:href="@{/add-event}">
+        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add event
+      </a>
+    </div>
+    
     <div layout:fragment="content">
       Main page body goes here...
     </div>
