@@ -4,13 +4,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.*;
+import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "event")
+@Table(name = "events")
 public class Event {
 	
 	@Id
@@ -26,8 +27,9 @@ public class Event {
 	private LocalTime time;
 
 	private String name;
-
-	private long venue;
+	
+	@ManyToOne
+	private Venue venue;
 
 	public Event() {
 	}
@@ -64,11 +66,11 @@ public class Event {
 		this.name = name;
 	}
 
-	public long getVenue() {
+	public Venue getVenue() {
 		return venue;
 	}
 
-	public void setVenue(long venue) {
+	public void setVenue(Venue venue) {
 		this.venue = venue;
 	}
 }

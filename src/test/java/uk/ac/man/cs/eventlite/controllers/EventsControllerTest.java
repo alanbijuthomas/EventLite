@@ -32,7 +32,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import uk.ac.man.cs.eventlite.EventLite;
 import uk.ac.man.cs.eventlite.dao.EventService;
-import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.entities.Venue;
 
@@ -57,9 +56,6 @@ public class EventsControllerTest {
 	@Mock
 	private EventService eventService;
 
-	@Mock
-	private VenueService venueService;
-
 	@InjectMocks
 	private EventsController eventsController;
 
@@ -73,13 +69,11 @@ public class EventsControllerTest {
 	@Test
 	public void getIndexWhenNoEvents() throws Exception {
 		when(eventService.findAll()).thenReturn(Collections.<Event> emptyList());
-		when(venueService.findAll()).thenReturn(Collections.<Venue> emptyList());
 
 		mvc.perform(get("/events").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));
 
 		verify(eventService).findAll();
-		verify(venueService).findAll();
 		verifyZeroInteractions(event);
 		verifyZeroInteractions(venue);
 	}
@@ -87,13 +81,11 @@ public class EventsControllerTest {
 	@Test
 	public void getIndexWithEvents() throws Exception {
 		when(eventService.findAll()).thenReturn(Collections.<Event> singletonList(event));
-		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(venue));
 
 		mvc.perform(get("/events").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));
 
 		verify(eventService).findAll();
-		verify(venueService).findAll();
 		verifyZeroInteractions(event);
 		verifyZeroInteractions(venue);
 	}
