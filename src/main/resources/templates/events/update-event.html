@@ -47,6 +47,10 @@
       	<input type="text" th:field="*{venue}" id="venue" placeholder="Venue">
       	<span th:if="${#fields.hasErrors('venue')}" th:errors="*{venue}"></span>
       	
+      	<label for="name">Description</label>
+      	<input type="text" th:field="*{description}" id="description" placeholder="Description">
+      	<span th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
+      	
       	<input type="submit" value="Update Event">   
       </form>
     </div>
