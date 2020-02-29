@@ -1,5 +1,7 @@
 package uk.ac.man.cs.eventlite.dao;
 
+import java.util.Optional;
+
 import uk.ac.man.cs.eventlite.entities.Event;
 
 public interface EventService extends EventRepository {
@@ -9,4 +11,7 @@ public interface EventService extends EventRepository {
 	public Iterable<Event> findAll();
 	
 	public <S extends Event> S save(S event);
+	
+	public Event findOne(Long id);
+	
 }
