@@ -7,30 +7,38 @@
 </head>
 <body>
   <div layout:fragment="content">
+  	<form action="#" th:action="@{/events}" th:object="${event}" method="post">
+  
     <div class="alert alert-danger" role="alert" th:if="${param.error}">
       Invalid user name and/or password.
     </div>
-    <form th:action="@{/sign-in}" method="post">
+
       <div class="form-row">
-        <div class="form-group col-md-6" th:classappend="${param.error}? has-error">
+        <div class="form-group col-md-6">
           <label for="name">Event:</label>
-          <input class="form-control" type="text" name="name" id="name" autofocus="autofocus" />
+          <input class="form-control" type="text" name="name" id="name" autofocus="autofocus" th:field="*{name}"/>
         </div>
-        <div class="form-group col-md-6" th:classappend="${param.error}? has-error">
+        
+        <div class="form-group col-md-6">
           <label for="date">Date:</label>
-          <input class="form-control" type="date" name="date" id="date" autofocus="autofocus" />
+          <input class="form-control" type="date" name="date" id="date" autofocus="autofocus" th:field="*{date}"/>
         </div>
-        <div class="form-group col-md-6" th:classappend="${param.error}? has-error">
+        
+        <div class="form-group col-md-6">
           <label for="time">Time:</label>
-          <input class="form-control" type="time" name="time" id="time" autofocus="autofocus" />
+          <input class="form-control" type="time" name="time" id="time" autofocus="autofocus" th:field="*{time}"/>
         </div>
-        <div class="form-group col-md-6" th:classappend="${param.error}? has-error">
+        
+        <div class="form-group col-md-6">
           <label for="venue">Venue:</label>
-          <input class="form-control" type="text" name="venue" id="venue" autofocus="autofocus" />
+          <select th:field="*{venue}" class="form-control">
+          	<option th:each="venue : ${venueList}" th:value="${venue.id}" th:text="${venue.name} + ' {Capacity: ' + ${venue.capacity} + ')'"></option>
+          </select>
         </div>
-        <div class="form-group col-md-12" th:classappend="${param.error}? has-error">
+        
+        <div class="form-group col-md-12">
           <label for="description">Description:</label>
-          <textarea class="form-control" type="text" name="description" id="description" autofocus="autofocus" maxlength="100" size="100" rows="5"></textarea>
+          <textarea class="form-control" type="text" name="description" id="description" autofocus="autofocus" maxlength="100" size="100" rows="3"></textarea>
         </div>
       </div>
       
