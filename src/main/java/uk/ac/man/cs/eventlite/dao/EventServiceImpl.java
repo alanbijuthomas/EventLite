@@ -83,4 +83,9 @@ public class EventServiceImpl implements EventService {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	@Override
+	public Event findEventById (long id) {
+		return eventRepository.findById(id).orElse(null);
+	}
 }

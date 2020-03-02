@@ -8,7 +8,7 @@
 <body>
   <div layout:fragment="content">
   	<div sec:authorize="isAuthenticated()">
-      <a class="btn btn-primary" role="button" th:href="@{/add-event}">
+      <a class="btn btn-primary" role="button" th:href="@{events/new}">
         <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add event
       </a>
     </div>
