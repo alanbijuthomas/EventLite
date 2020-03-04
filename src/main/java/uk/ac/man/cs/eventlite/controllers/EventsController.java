@@ -31,6 +31,7 @@ public class EventsController {
 	public String getEvent(@PathVariable("id") long id, Model model) {
 
 		Event event = eventService.findOne(id);
+		model.addAttribute("id", id);
 		model.addAttribute("name", event.getName());
 		model.addAttribute("time", event.getTime());
 		model.addAttribute("date", event.getDate());
