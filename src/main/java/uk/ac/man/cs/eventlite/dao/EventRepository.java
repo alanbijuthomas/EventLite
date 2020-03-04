@@ -8,6 +8,5 @@ public interface EventRepository extends CrudRepository<Event, Long> {
 	
 	public Iterable<Event> findAllByOrderByDateAscTimeAsc();
 
-	public Event findOne(Long id);
 
 }

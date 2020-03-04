@@ -48,8 +48,7 @@ public class EventServiceImpl implements EventService {
 		return (eventRepository.findById(id));
 	}
 	
-	@Override
-	public Event findOne(Long id) {
+	public Event findOne(long id) {
 		return findById(id).orElse(null);
 	}
 
