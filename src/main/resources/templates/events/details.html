@@ -35,6 +35,25 @@
           <td>Description</td>
           <td th:text="${description}">Event description</td>
         </tr>
+
+        <tr>
+            <form method="get" action="/events">
+    		  <button type="submit" class="btn btn-primary">
+    			<i class="fas fa-undo" aria-hidden="true"></i>
+    				Back
+    		  </button>
+			</form>
+        </tr>
+
+        <tr>
+            <form th:action="@{/events/{id}(id=${id})}" th:method="delete">
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-trash" aria-hidden="true"></i>
+                  Delete
+              </button>
+            </form>
+        </tr>
+
       </tbody>
     </table>
 
