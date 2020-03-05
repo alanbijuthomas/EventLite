@@ -34,6 +34,13 @@ public class EventsControllerApi {
 
 		return eventToResource(eventService.findAll());
 	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public Resource<Event> eventDetails(@PathVariable("id") long id) {
+		Event event = eventService.findOne(id);
+
+		return eventToResource(event);
+	}
 
 	private Resource<Event> eventToResource(Event event) {
 		Link selfLink = linkTo(EventsControllerApi.class).slash(event.getId()).withSelfRel();

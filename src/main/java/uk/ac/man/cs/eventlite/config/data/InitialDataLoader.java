@@ -93,6 +93,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			exampleEvent4.setTime(time4);
 			exampleEvent4.setDate(date4);
 			exampleEvent4.setVenue(testVenueOne);
+			exampleEvent4.setDescription("This is a nice event");
 			eventService.save(exampleEvent4);
 			
 			Event exampleEvent5 = new Event();
