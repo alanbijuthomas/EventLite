@@ -48,7 +48,7 @@ public class EventServiceImpl implements EventService {
 	}
 	
 	@Override
-	public Event findOne(Long id) {
+	public Event findOne(long id) {		
 		return findById(id).orElse(null);
 	}
 
@@ -86,5 +86,10 @@ public class EventServiceImpl implements EventService {
 	public void deleteAll() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void deleteEventById(long id) {
+		eventRepository.deleteById(id);
 	}
 }

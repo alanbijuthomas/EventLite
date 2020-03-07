@@ -8,9 +8,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.entities.Event;
 
@@ -45,6 +46,28 @@ public class EventsController {
 		eventService.save(event);
 		model.addAttribute("events", eventService.findAll());
 		return "redirect:/events";
+	}
+	
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public String deleteEventById(@PathVariable("id") long id) {
+
+		eventService.deleteEventById(id);
+
+		return "redirect:/events";
+	}
+		
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String getEvent(@PathVariable("id") long id, Model model) {
+
+		Event event = eventService.findOne(id);
+		model.addAttribute("id", id);
+		model.addAttribute("name", event.getName());
+		model.addAttribute("time", event.getTime());
+		model.addAttribute("date", event.getDate());
+		model.addAttribute("description", event.getDescription());
+		model.addAttribute("venue_name", event.getVenue().getName());
+
+		return "events/details";
 	}
 
 }

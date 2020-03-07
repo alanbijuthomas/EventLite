@@ -10,6 +10,8 @@ public interface EventService extends EventRepository {
 	
 	public <S extends Event> S save(S event);
 	
-	public Event findOne(Long id);
+	public Event findOne(long id);
+	
+	public void deleteEventById(long id);
 	
 }
