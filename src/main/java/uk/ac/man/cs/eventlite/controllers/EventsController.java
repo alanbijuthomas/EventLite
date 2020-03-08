@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.dao.EventService;
-import uk.ac.man.cs.eventlite.entities.Event;
+import uk.ac.man.cs.eventlite.dao.VenueService;
 
 @Controller
 @RequestMapping(value = "/events", produces = { MediaType.TEXT_HTML_VALUE })
@@ -21,6 +21,9 @@ public class EventsController {
 
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private VenueService venueService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
@@ -33,6 +36,7 @@ public class EventsController {
 	@GetMapping("/update/{id}")
 	public String updateEvent(@PathVariable("id") long id, Model model)  {
 		model.addAttribute("event", eventService.findOne(id));
+        model.addAttribute("venueList", venueService.findAll());       
 		return "events/update-event";
 	}
 	

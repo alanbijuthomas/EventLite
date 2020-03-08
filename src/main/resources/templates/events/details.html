@@ -34,8 +34,9 @@
         <tr>
           <td>Description</td>
           <td th:text="${description}">Event description</td>
-        </tr>        
-
+        </tr>  
+        
+        <div sec:authorize="isAuthenticated()">
         <tr>
             <form th:action="@{/events/update/{id}(id=${id})}" th:method="get">
     		  <button type="submit" class="btn btn-primary">
@@ -53,6 +54,7 @@
               </button>
             </form>
         </tr>
+        </div>
         
         <tr>
             <form method="get" action="/events">
