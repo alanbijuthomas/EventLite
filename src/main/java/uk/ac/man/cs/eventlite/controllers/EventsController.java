@@ -27,7 +27,7 @@ public class EventsController {
 	}
 
 	// Same as above method but, put into list and only return if event contains string
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
+	@RequestMapping(value = "/search-by-name", method = RequestMethod.GET)
 	public String searchEventName(@RequestParam (value = "search", required = false) String searchTerm, Model model) {
 		model.addAttribute("search", eventService.findAllByNameContainingIgnoreCase(searchTerm));
 		model.addAttribute("events", eventService.findAll());
