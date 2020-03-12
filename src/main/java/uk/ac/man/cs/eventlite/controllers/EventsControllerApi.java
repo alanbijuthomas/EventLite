@@ -35,13 +35,6 @@ public class EventsControllerApi {
 		return eventToResource(eventService.findAll());
 	}
 	
-	//////////
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public Resources<Resource<Event>> getThreeEvents() {
-
-		return eventToResourceThree(eventService.findThree());
-	}
-	
 	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.GET)
 	public Resource<Event> eventDetails(@PathVariable("id") long id) {
 		Event event = eventService.findOne(id);
@@ -57,18 +50,6 @@ public class EventsControllerApi {
 
 	private Resources<Resource<Event>> eventToResource(Iterable<Event> events) {
 		Link selfLink = linkTo(methodOn(EventsControllerApi.class).getAllEvents()).withSelfRel();
-
-		List<Resource<Event>> resources = new ArrayList<Resource<Event>>();
-		for (Event event : events) {
-			resources.add(eventToResource(event));
-		}
-
-		return new Resources<Resource<Event>>(resources, selfLink);
-	}
-	
-	//////////
-	private Resources<Resource<Event>> eventToResourceThree(Iterable<Event> events) {
-		Link selfLink = linkTo(methodOn(EventsControllerApi.class).getThreeEvents()).withSelfRel();
 
 		List<Resource<Event>> resources = new ArrayList<Resource<Event>>();
 		for (Event event : events) {

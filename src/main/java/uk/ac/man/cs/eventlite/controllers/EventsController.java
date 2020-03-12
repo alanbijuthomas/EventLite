@@ -1,18 +1,22 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import uk.ac.man.cs.eventlite.entities.Event;
+
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
+import uk.ac.man.cs.eventlite.entities.Event;
 
 @Controller
 @RequestMapping(value = "/events", produces = { MediaType.TEXT_HTML_VALUE })
@@ -28,6 +32,12 @@ public class EventsController {
 	public String getAllEvents(Model model) {
 
 		model.addAttribute("eventsAll", eventService.findAll());
+		
+		model.addAttribute("eventsThree", 
+				StreamSupport.stream(
+						eventService.findAll().spliterator(), false)
+								.limit(3).collect(Collectors.toList())
+				);
 
 		return "events/index";
 	}
@@ -71,14 +81,5 @@ public class EventsController {
 		model.addAttribute("venue_name", event.getVenue().getName());
 
 		return "events/details-event";
-	}
-	
-	/////////////
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String getThreeEvents(Model model) {
-
-		model.addAttribute("eventsThree", eventService.findThree());
-
-		return "events/index";
 	}
 }

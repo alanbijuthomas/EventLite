@@ -92,12 +92,4 @@ public class EventServiceImpl implements EventService {
 	public void deleteEventById(long id) {
 		eventRepository.deleteById(id);
 	}
-
-	//////////
-	@Override
-	public Iterable<Event> findThree() {
-		// not functional yet
-//		return eventRepository.findThree();
-		return null;
-	}
 }
