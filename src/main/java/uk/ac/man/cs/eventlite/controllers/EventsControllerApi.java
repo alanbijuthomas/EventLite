@@ -35,7 +35,7 @@ public class EventsControllerApi {
 		return eventToResource(eventService.findAll());
 	}
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.GET)
 	public Resource<Event> eventDetails(@PathVariable("id") long id) {
 		Event event = eventService.findOne(id);
 

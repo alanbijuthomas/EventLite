@@ -60,7 +60,7 @@ public class EventsController {
 		return "redirect:/events";
 	}
 		
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.GET)
 	public String getEvent(@PathVariable("id") long id, Model model) {
 
 		Event event = eventService.findOne(id);
@@ -71,7 +71,7 @@ public class EventsController {
 		model.addAttribute("description", event.getDescription());
 		model.addAttribute("venue_name", event.getVenue().getName());
 
-		return "events/details";
+		return "events/details-event";
 	}
 
 }
