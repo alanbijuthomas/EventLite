@@ -13,5 +13,8 @@ public interface EventService extends EventRepository {
 	public Event findOne(long id);
 	
 	public void deleteEventById(long id);
+
+	//////////
+	public Iterable<Event> findThree();
 	
 }

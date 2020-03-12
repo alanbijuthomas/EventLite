@@ -8,7 +8,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import uk.ac.man.cs.eventlite.entities.Event;
@@ -28,7 +27,7 @@ public class EventsController {
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
 
-		model.addAttribute("events", eventService.findAll());
+		model.addAttribute("eventsAll", eventService.findAll());
 
 		return "events/index";
 	}
@@ -73,5 +72,13 @@ public class EventsController {
 
 		return "events/details-event";
 	}
+	
+	/////////////
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String getThreeEvents(Model model) {
 
+		model.addAttribute("eventsThree", eventService.findThree());
+
+		return "events/index";
+	}
 }
