@@ -5,6 +5,7 @@ import java.time.LocalTime;
 
 import javax.persistence.*;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
@@ -19,10 +20,11 @@ public class Event {
 	@Id
 	@GeneratedValue
 	private long id;
-
+	
+	@NotEmpty(message = "The event must have a date.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	@NotEmpty(message = "The event must have a date.")
+	@Future(message = "The event must have a date in the future.")
 	private LocalDate date;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING)

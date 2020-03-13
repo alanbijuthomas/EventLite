@@ -92,4 +92,5 @@ public class EventServiceImpl implements EventService {
 	public void deleteEventById(long id) {
 		eventRepository.deleteById(id);
 	}
+
 }

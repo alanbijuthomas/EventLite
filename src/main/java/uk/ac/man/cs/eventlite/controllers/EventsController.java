@@ -3,6 +3,7 @@ package uk.ac.man.cs.eventlite.controllers;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -11,15 +12,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
 
-@Controller
-@RequestMapping(value = "/events", produces = { MediaType.TEXT_HTML_VALUE })
+@Controller @RequestMapping(value = "/events", produces = {MediaType.TEXT_HTML_VALUE}) 
 public class EventsController {
 
 	@Autowired
@@ -33,12 +36,12 @@ public class EventsController {
 
 		model.addAttribute("eventsAll", eventService.findAll());
 		
-		model.addAttribute("eventsThree", 
+		/*model.addAttribute("eventsThree", 
 				StreamSupport.stream(
 						eventService.findAll().spliterator(), false)
 								.limit(3).collect(Collectors.toList())
 				);
-
+		*/
 		return "events/index";
 	}
 	
@@ -54,6 +57,8 @@ public class EventsController {
 			  BindingResult result, Model model) {
 		if (result.hasErrors()) {
 	        event.setId(id);
+			model.addAttribute("event", eventService.findOne(id));
+	        model.addAttribute("venueList", venueService.findAll()); 
 	        return "events/update-event";
 	    }
 		eventService.save(event);
@@ -82,4 +87,32 @@ public class EventsController {
 
 		return "events/details-event";
 	}
+    
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newEvent(Model model) {
+        
+    	if (!model.containsAttribute("event")) {
+            model.addAttribute("event", new Event());
+        }
+        
+        if (!model.containsAttribute("venueList")) {
+            model.addAttribute("venueList", venueService.findAll());
+        }
+        
+        return "events/new";
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String createEvent(@RequestBody @Valid @ModelAttribute Event event, BindingResult errors, Model model, RedirectAttributes redirectAttrs) {
+        if (errors.hasErrors()) {
+            model.addAttribute("event", event);
+            model.addAttribute("venueList", venueService.findAll());
+            return "events/new";
+        }
+        
+        eventService.save(event);
+        redirectAttrs.addFlashAttribute("ok_message", "New event added.");
+        
+        return "redirect:/events";
+    }
 }
