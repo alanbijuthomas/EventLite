@@ -60,7 +60,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			// Create example event and add to database
 			Event exampleEvent2 = new Event();
 			exampleEvent2.setId(2);
-			exampleEvent2.setName("Example Event 2");
+			exampleEvent2.setName("BExample BEvent 2");
 			
 			
 			LocalDate date2 = LocalDate.now();
@@ -99,7 +99,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			Event exampleEvent5 = new Event();
 			exampleEvent5.setId(5);
-			exampleEvent5.setName("Example Event 5");
+			exampleEvent5.setName("AExample Event 5");
 			
 			
 			LocalDate date5 = LocalDate.now().withMonth(12);

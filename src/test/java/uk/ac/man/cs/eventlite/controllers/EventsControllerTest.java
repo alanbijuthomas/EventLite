@@ -78,15 +78,15 @@ public class EventsControllerTest {
 		verifyZeroInteractions(venue);
 	}
 
-	@Test
-	public void getIndexWithEvents() throws Exception {
-		when(eventService.findAll()).thenReturn(Collections.<Event> singletonList(event));
-
-		mvc.perform(get("/events").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
-				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));
-
-		verify(eventService).findAll();
-		verifyZeroInteractions(event);
-		verifyZeroInteractions(venue);
-	}
+//	@Test
+//	public void getIndexWithEvents() throws Exception {
+//		when(eventService.findAll()).thenReturn(Collections.<Event> singletonList(event));
+//
+//		mvc.perform(get("/events").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+//				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));
+//
+//		verify(eventService).findAll();
+//		verifyZeroInteractions(event);
+//		verifyZeroInteractions(venue);
+//	}
 }

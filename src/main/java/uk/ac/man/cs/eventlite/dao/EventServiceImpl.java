@@ -22,13 +22,13 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Iterable<Event> findAll() {
-		return(this.findAllByOrderByDateAscTimeAsc());
+		return(this.findAllByOrderByDateAscNameAsc());
 	}
 	
 	@Override
-	public Iterable<Event> findAllByOrderByDateAscTimeAsc()
+	public Iterable<Event> findAllByOrderByDateAscNameAsc()
 	{
-		return (eventRepository.findAllByOrderByDateAscTimeAsc());
+		return (eventRepository.findAllByOrderByDateAscNameAsc());
 	}
 
 	@Override
