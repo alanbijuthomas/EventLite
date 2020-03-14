@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import javax.servlet.Filter;
@@ -84,7 +86,18 @@ public class EventsControllerTest {
 
 	@Test
 	public void getIndexWithEvents() throws Exception {
-		when(eventService.findAll()).thenReturn(Collections.<Event> singletonList(event));
+		Venue v = new Venue();
+		v.setName("Venue");
+		v.setCapacity(1);
+		
+		Event e = new Event();
+		e.setId(0);
+		e.setName("Event");
+		e.setDate(LocalDate.now());
+		e.setTime(LocalTime.now());
+		e.setVenue(v);
+
+		when(eventService.findAll()).thenReturn(Collections.<Event>singletonList(e));
 
 		mvc.perform(get("/events").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(view().name("events/index")).andExpect(handler().methodName("getAllEvents"));

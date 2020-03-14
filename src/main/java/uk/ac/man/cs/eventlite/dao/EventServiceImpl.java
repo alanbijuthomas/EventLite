@@ -22,15 +22,21 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Iterable<Event> findAll() {
-		return(this.findAllByOrderByDateAscTimeAsc());
+		return(this.findAllByOrderByDateAscNameAsc());
 	}
 	
 	@Override
-	public Iterable<Event> findAllByOrderByDateAscTimeAsc()
+	public Iterable<Event> findAllByOrderByDateAscNameAsc()
 	{
-		return (eventRepository.findAllByOrderByDateAscTimeAsc());
+		return (eventRepository.findAllByOrderByDateAscNameAsc());
 	}
 
+	@Override
+	public Iterable<Event> findAllByNameContainingIgnoreCase(String name)
+	{
+		return (eventRepository.findAllByNameContainingIgnoreCase(name));
+	}
+	
 	@Override
 	public <S extends Event> S save(S entity) {
 		return(eventRepository.save(entity));

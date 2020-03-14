@@ -8,6 +8,8 @@ public interface EventService extends EventRepository {
 
 	public Iterable<Event> findAll();
 	
+	public Iterable<Event> findAllByNameContainingIgnoreCase(String name);
+	
 	public <S extends Event> S save(S event);
 	
 	public Event findOne(long id);
