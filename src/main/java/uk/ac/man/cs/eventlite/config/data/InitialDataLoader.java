@@ -1,9 +1,7 @@
 package uk.ac.man.cs.eventlite.config.data;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,7 +58,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			// Create example event and add to database
 			Event exampleEvent2 = new Event();
 			exampleEvent2.setId(2);
-			exampleEvent2.setName("Example Event 2");
+			exampleEvent2.setName("BExample BEvent 2");
 			
 			
 			LocalDate date2 = LocalDate.now();
@@ -95,11 +93,12 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			exampleEvent4.setTime(time4);
 			exampleEvent4.setDate(date4);
 			exampleEvent4.setVenue(testVenueOne);
+			exampleEvent4.setDescription("This is a nice event");
 			eventService.save(exampleEvent4);
 			
 			Event exampleEvent5 = new Event();
 			exampleEvent5.setId(5);
-			exampleEvent5.setName("Example Event 5");
+			exampleEvent5.setName("AExample Event 5");
 			
 			
 			LocalDate date5 = LocalDate.now().withMonth(12);

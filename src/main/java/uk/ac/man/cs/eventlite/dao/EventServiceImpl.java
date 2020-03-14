@@ -22,15 +22,21 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Iterable<Event> findAll() {
-		return(this.findAllByOrderByDateAscTimeAsc());
+		return(this.findAllByOrderByDateAscNameAsc());
 	}
 	
 	@Override
-	public Iterable<Event> findAllByOrderByDateAscTimeAsc()
+	public Iterable<Event> findAllByOrderByDateAscNameAsc()
 	{
-		return (eventRepository.findAllByOrderByDateAscTimeAsc());
+		return (eventRepository.findAllByOrderByDateAscNameAsc());
 	}
 
+	@Override
+	public Iterable<Event> findAllByNameContainingIgnoreCase(String name)
+	{
+		return (eventRepository.findAllByNameContainingIgnoreCase(name));
+	}
+	
 	@Override
 	public <S extends Event> S save(S entity) {
 		return(eventRepository.save(entity));
@@ -44,8 +50,12 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public Optional<Event> findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return(eventRepository.findById(id));
+	}
+	
+	@Override
+	public Event findOne(long id) {		
+		return findById(id).orElse(null);
 	}
 
 	@Override
@@ -83,4 +93,10 @@ public class EventServiceImpl implements EventService {
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void deleteEventById(long id) {
+		eventRepository.deleteById(id);
+	}
+
 }
