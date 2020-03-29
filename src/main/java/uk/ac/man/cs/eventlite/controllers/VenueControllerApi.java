@@ -27,18 +27,13 @@ import uk.ac.man.cs.eventlite.entities.Venue;
 
 
 @RestController
-@RequestMapping(value = "/api/events", produces = { MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE })
+@RequestMapping(value = "/api/venues", produces = { MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE })
 public class VenueControllerApi {
 	
 	
 	@Autowired
 	private VenueService venueService;
 	
-    @RequestMapping(value = "add-venue.html", method = RequestMethod.GET)
-    public Resources<Resource<Venue>> getAllVenues() {
- 
-        return venueToResource(venueService.findAll());
-    }
  
     private Resource<Venue> venueToResource(Venue venue) {
         Link selfLink = linkTo(EventsControllerApi.class).slash(venue.getId()).withSelfRel();
@@ -46,12 +41,12 @@ public class VenueControllerApi {
         return new Resource<Venue>(venue, selfLink);
     }
  
-    
+    /*
     @RequestMapping(method = RequestMethod.GET)
-	public Resources<Resource<Venue>> getAllEvents() {
+	public Resources<Resource<Venue>> getAllVenues() {
 
 		return venueToResource(venueService.findAll());
-	}
+	}*/
     
     
     private Resources<Resource<Venue>> venueToResource(Iterable<Venue> venues) {
@@ -65,7 +60,7 @@ public class VenueControllerApi {
 		return new Resources<Resource<Venue>>(resources, selfLink);
 	}
     
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    @RequestMapping(value = "new-venue", method = RequestMethod.GET)
     public ResponseEntity < ? > newVenue() {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }

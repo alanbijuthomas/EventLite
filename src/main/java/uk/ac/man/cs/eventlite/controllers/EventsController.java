@@ -154,19 +154,4 @@ public class EventsController {
 		return "redirect:/events";
 	}
 	
-	/*
-	 *  @RequestMapping(value = "add-venue.html",method = RequestMethod.POST)
-    public String addVenue(Model model) {
-       
-        Venue genericVenue = new Venue();
-        genericVenue.setId(1);
-        genericVenue.setName("genericManchester");
-        genericVenue.setCapacity(100);
-        genericVenue.setAddress("Kilburn building, Oxford Road");
-        genericVenue.setPostcode("M99 9KB");
-        venueService.save(genericVenue);
-       
-        return "events/index";
-    }
-	 */
 }
