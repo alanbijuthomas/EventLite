@@ -40,13 +40,6 @@ public class VenueControllerApi {
 
         return new Resource<Venue>(venue, selfLink);
     }
- 
-    /*
-    @RequestMapping(method = RequestMethod.GET)
-	public Resources<Resource<Venue>> getAllVenues() {
-
-		return venueToResource(venueService.findAll());
-	}*/
     
     
     private Resources<Resource<Venue>> venueToResource(Iterable<Venue> venues) {

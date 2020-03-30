@@ -21,22 +21,6 @@ public class VenueController {
 
 	@Autowired
 	private VenueService venueService;
-
-	
-	@RequestMapping(value = "new-venue.html",method = RequestMethod.POST)
-    public String addVenue(Model model) {
-       
-        Venue genericVenue = new Venue();
-        genericVenue.setId(1);
-        genericVenue.setName("genericManchester");
-        genericVenue.setCapacity(100);
-        genericVenue.setAddress("Kilburn building, Oxford Road");
-        genericVenue.setPostcode("M99 9KB");
-        venueService.save(genericVenue);
-       
-        return "events/index";
-    }
-	
 	
     @RequestMapping(value = "new-venue", method = RequestMethod.GET)
     public String newVenue(Model model) {
