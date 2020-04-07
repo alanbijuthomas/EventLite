@@ -32,6 +32,7 @@ public class Venue {
 	@NotNull(message = "The venue must have a postcode.")
 	private String postcode;
 
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@NotNull
 	@Min(0)
 	private int capacity;
