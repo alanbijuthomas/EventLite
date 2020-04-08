@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layouts/default}">
+
+<head>
+<title>Update Venue</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<h1>Update Venue</h1>
+		<form action="#" th:action="@{/venues/updated/{id}(id=${venue.id})}"
+			th:object="${venue}" method="post">
+			<div class="form-group">
+				<p class="text-danger">* Required</p>
+			</div>
+			<div class="form-group col-md-6"
+				th:classappend="${#fields.hasErrors('name')}? has-error">
+				<label for="name">Name:</label><a class="text-danger"> *</a> <input
+					class="form-control" type="text" name="name" id="name"
+					th:field="*{name}" placeholder="Name" autofocus="autofocus"
+					required />
+				<p class="text-danger" th:if="${#fields.hasErrors('name')}"
+					th:errors="*{name}">errors</p>
+			</div>
+			<div class="form-group col-md-6"
+				th:classappend="${#fields.hasErrors('capacity')}? has-error">
+				<label for="capacity">Capacity:</label><a class="text-danger"> *</a> <input
+					class="form-control" type="capacity" name="capacity" id="capacity"
+					th:field="*{capacity}" placeholder="Capacity" autofocus="autofocus"
+					required />
+				<p class="text-danger" th:if="${#fields.hasErrors('capacity')}"
+					th:errors="*{capacity}">errors</p>
+			</div>
+			<div class="form-group col-md-6"
+				th:classappend="${#fields.hasErrors('address')}? has-error">
+				<label for="address">Address:</label><a class="text-danger"> *</a> <input
+					class="form-control" type="address" name="address" id="address"
+					th:field="*{address}" placeholder="Address" autofocus="autofocus"
+					required />
+				<p class="text-danger" th:if="${#fields.hasErrors('address')}"
+					th:errors="*{address}">errors</p>
+			</div>		
+			<div class="form-group col-md-6"
+				th:classappend="${#fields.hasErrors('postcode')}? has-error">
+				<label for="postcode">Postcode:</label> <input class="form-control"
+					type="postcode" name="postcode" id="postcode" th:field="*{postcode}"
+					placeholder="Postcode" autofocus="autofocus" />
+				<p class="text-danger" th:if="${#fields.hasErrors('postcode')}"
+					th:errors="*{postcode}">errors</p>
+			</div>
+
+			<button class="btn btn-primary" type="submit">
+				<i class="fas fa-edit" aria-hidden="true"></i>Update
+			</button>
+			<a class="btn btn-warning" role="button" href="/venues"><i
+				class="fas fa-ban" aria-hidden="true"></i>Cancel</a>
+	</div>
+	</form>
+	</div>
+</body>
+
+</html>
