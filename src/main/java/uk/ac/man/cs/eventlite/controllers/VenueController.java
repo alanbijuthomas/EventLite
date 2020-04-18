@@ -73,5 +73,13 @@ public class VenueController {
         model.addAttribute("venueList", venueService.findAll());
 		return "redirect:/venues";
 	}
+	
+	@RequestMapping(method = RequestMethod.GET)
+    public String getAllVenues(Model model) {
+        model.addAttribute("venues", venueService.findAll());
+
+        return "venues/index";
+    }
+	
 
 }
