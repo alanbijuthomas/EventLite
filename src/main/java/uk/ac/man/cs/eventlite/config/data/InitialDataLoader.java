@@ -40,8 +40,10 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			// Create example venue and add to database
 			Venue testVenueOne = new Venue();
+			testVenueOne.setId(1);
 			testVenueOne.setName("testVenueOne");
 			testVenueOne.setCapacity(1);
+			testVenueOne.setAddress("Street 2");
 			venueService.save(testVenueOne);
 			log.info("Attempting to add an example venue.");
 			
