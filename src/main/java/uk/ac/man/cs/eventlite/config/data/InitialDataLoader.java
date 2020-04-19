@@ -45,6 +45,18 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			venueService.save(testVenueOne);
 			log.info("Attempting to add an example venue.");
 			
+			Venue testVenueTwo = new Venue();
+			testVenueTwo.setName("testVenueTwo");
+			testVenueTwo.setCapacity(1);
+			venueService.save(testVenueTwo);
+			log.info("Attempting to add an example venue.");
+			
+			Venue testVenueThree = new Venue();
+			testVenueThree.setName("testVenueThree");
+			testVenueThree.setCapacity(1);
+			venueService.save(testVenueThree);
+			log.info("Attempting to add an example venue.");
+			
 			// Create example event and add to database
 			Event exampleEvent = new Event();
 			exampleEvent.setId(1);
@@ -108,6 +120,19 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			exampleEvent5.setDate(date5);
 			exampleEvent5.setVenue(testVenueOne);
 			eventService.save(exampleEvent5);
+			
+			Event exampleEvent6 = new Event();
+			exampleEvent6.setId(6);
+			exampleEvent6.setName("Example Event 6");
+			
+			
+			LocalDate date6 = LocalDate.now();
+			LocalTime time6 = LocalTime.now().withHour(14);
+			
+			exampleEvent6.setTime(time6);
+			exampleEvent6.setDate(date6);
+			exampleEvent6.setVenue(testVenueTwo);
+			eventService.save(exampleEvent6);
 			return;
 		}
 
