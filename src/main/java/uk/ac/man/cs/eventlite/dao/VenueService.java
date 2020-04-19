@@ -9,4 +9,6 @@ public interface VenueService {
 	public Iterable<Venue> findAll();
 	
 	public <V extends Venue> V save(V venue);
+
+	public void deleteVenueById(long id);
 }
