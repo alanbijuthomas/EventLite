@@ -1,6 +1,8 @@
 package uk.ac.man.cs.eventlite.controllers;
 
 import javax.validation.Valid;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,6 +21,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.models.CarmenFeature;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Point;
+
+import retrofit2.Response;
+
 import org.springframework.web.bind.annotation.RequestParam;
 
 import uk.ac.man.cs.eventlite.dao.EventService;
@@ -33,7 +44,6 @@ public class EventsController {
 	
 	@Autowired
 	private VenueService venueService;
-
 
 	@GetMapping
 	public String getAllEvents(Model model) {
@@ -94,7 +104,10 @@ public class EventsController {
 		model.addAttribute("date", event.getDate());
 		model.addAttribute("description", event.getDescription());
 		model.addAttribute("venue_name", event.getVenue().getName());
-
+		model.addAttribute("longitude",event.getVenue().getLongitude());
+		model.addAttribute("latitude",event.getVenue().getLatitude());
+		
+		
 		return "events/details-event";
 	}
     
@@ -119,7 +132,7 @@ public class EventsController {
             model.addAttribute("venueList", venueService.findAll());
             return "events/new";
         }
-        
+        //Decoding for the longitude and latitude
         eventService.save(event);
         redirectAttrs.addFlashAttribute("ok_message", "New event added.");
         

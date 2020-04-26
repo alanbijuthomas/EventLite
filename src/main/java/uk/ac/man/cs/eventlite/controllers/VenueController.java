@@ -1,5 +1,7 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,12 +15,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mapbox.api.geocoding.v5.GeocodingCriteria;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding;
+import com.mapbox.api.geocoding.v5.MapboxGeocoding.Builder;
+import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
+import com.mapbox.geojson.Point;
+
+import retrofit2.Response;
 import uk.ac.man.cs.eventlite.dao.VenueService;
+import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.entities.Venue;
 
 @Controller @RequestMapping(value = "/venues", produces = {MediaType.TEXT_HTML_VALUE}) 
 public class VenueController {
 
+	private final String accessToken = "pk.eyJ1IjoiZXZlbnRlbGl0ZWYxNTIwIiwiYSI6ImNrOWZyNzJ1NTA5NnQzbm1rOXhxcjlua3cifQ.qxpn8OXHCZFD00ydAIVM8w";
+	
 	@Autowired
 	private VenueService venueService;
 	
@@ -44,11 +56,37 @@ public class VenueController {
             return "venues/new-venue";
         }
         
+        try {
+			addLongLat(venue);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
         venueService.save(venue);
         redirectAttrs.addFlashAttribute("ok_message", "New Venue added.");
         
         return "redirect:/events";
     }
+    
+    private void addLongLat(Venue v) throws IOException
+	{
+		String address = v.getAddress();
+		String postcode = v.getPostcode();
+		String query = address + " " + postcode;
+		MapboxGeocoding client = MapboxGeocoding.builder()
+				.accessToken(accessToken)
+				.query(query)
+				.mode(GeocodingCriteria.MODE_PLACES)
+				.limit(1)
+				.build();
+		
+		Response<GeocodingResponse> response = client.executeCall();
+		GeocodingResponse gResponse = response.body();
+		Point coords = gResponse.features().get(0).center();
+		v.setLatitude(coords.latitude());
+		v.setLongitude(coords.longitude());
+		
+	}
 	 
 
 }

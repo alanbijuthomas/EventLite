@@ -36,6 +36,9 @@ public class Venue {
 	@NotNull
 	@Min(0)
 	private int capacity;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private double longitude, latitude;
 
 	public Venue() {
 	}
@@ -78,5 +81,21 @@ public class Venue {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 }
