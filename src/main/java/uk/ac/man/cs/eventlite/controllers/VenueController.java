@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import uk.ac.man.cs.eventlite.dao.VenueService;
-import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.entities.Venue;
 
 @Controller @RequestMapping(value = "/venues", produces = {MediaType.TEXT_HTML_VALUE}) 
@@ -85,10 +84,9 @@ public class VenueController {
 	// Searches venues by searchTerm query.
 	@RequestMapping(value = "/search-by-venue-name", method = RequestMethod.GET)
 	public String searchVenueName(@RequestParam (value = "search", required = false) String searchTerm, Model model) {
-		
 		model.addAttribute("venue_search", venueService.findAllByNameContainingIgnoreCase(searchTerm));
-		//model.addAttribute("venues", venueService.findAll());
 		getAllVenues(model);
+		
 		return "venues/index";
 	} // searchVenueName
 
