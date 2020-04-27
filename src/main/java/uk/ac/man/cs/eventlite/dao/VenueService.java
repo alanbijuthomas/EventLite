@@ -8,6 +8,8 @@ public interface VenueService extends VenueRepository {
 
 	public Iterable<Venue> findAll();
 	
+	public Iterable<Venue> findAllByNameContainingIgnoreCase(String name);
+	
 	public <V extends Venue> V save(V venue);
 	
 	public Venue findOne(long id);

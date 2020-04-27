@@ -40,6 +40,12 @@ public class VenueServiceImpl implements VenueService {
 	}
 	
 	@Override
+	public Iterable<Venue> findAllByNameContainingIgnoreCase(String name)
+	{
+		return (venueRepository.findAllByNameContainingIgnoreCase(name));
+	}
+	
+	@Override
 	public <V extends Venue> V save(V venue)
 	{
 		return venueRepository.save(venue);
