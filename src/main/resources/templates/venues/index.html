@@ -43,7 +43,17 @@
           <td th:text="${{v.address}}">Venue address</td>
           <td th:text="${{v.postcode}}">Venue postcode</td>
           <td th:text="${{v.capacity}}">Venue capacity</td>
-        </tr>
+        
+    	  <td sec:authorize="isAuthenticated()">
+		  <form th:action="@{/venues/{id}(id=${v.id})}" th:method="delete">
+			<button type="submit" class="btn btn-danger">
+				<i class="fas fa-trash" aria-hidden="true"></i>
+					Delete
+			</button>
+		  </form>
+		  </td>
+		  
+		</tr>
       </tbody>
     </table>
   </div>

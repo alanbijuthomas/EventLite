@@ -34,10 +34,17 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.ac.man.cs.eventlite.EventLite;
 import uk.ac.man.cs.eventlite.dao.EventService;
+import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
 import uk.ac.man.cs.eventlite.entities.Venue;
 import uk.ac.man.cs.eventlite.config.Security;
@@ -56,6 +63,9 @@ public class EventsControllerApiTest {
 
 	@Mock
 	private EventService eventService;
+	
+	@Mock
+	private VenueService venueService;
 
 	@InjectMocks
 	private EventsControllerApi eventsController;
@@ -106,5 +116,45 @@ public class EventsControllerApiTest {
 				MockMvcRequestBuilders.delete("/api/events/1").with(user("Rob").roles(Security.ADMIN_ROLE))
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isNoContent());
+	}
+	
+	@Test
+	public void addEvent() throws Exception {
+		Venue v = new Venue();
+		v.setName("Venue");
+		v.setCapacity(1);
+		v.setAddress("hello");
+		v.setPostcode("hfear");
+		venueService.save(v);
+		
+		MultiValueMap<String, String> eventParams = new LinkedMultiValueMap<String, String>();
+		eventParams.add("id", "0");
+		eventParams.add("name", "Event");
+		eventParams.add("date", LocalDate.now().toString());
+		eventParams.add("date", LocalTime.now().toString());
+		eventParams.add("event", "Venue");
+		
+		Event e = new Event();
+		e.setId(0);
+		e.setName("Event");
+		e.setDate(LocalDate.now());
+		e.setTime(LocalTime.now());
+		e.setVenue(v);
+		
+		mvc.perform( MockMvcRequestBuilders
+			      .post("/api/events",new BeanPropertyBindingResult(e,"Event")).with(user("Rob").roles(Security.ADMIN_ROLE))
+			      .params(eventParams)
+			      .contentType(MediaType.APPLICATION_JSON_VALUE))
+			      .andExpect(status().isCreated())
+			      .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
+		
+	}
+	
+	private static String asJsonString(final Object obj) {
+	    try {
+	        return new ObjectMapper().writeValueAsString(obj);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
 	}
 }

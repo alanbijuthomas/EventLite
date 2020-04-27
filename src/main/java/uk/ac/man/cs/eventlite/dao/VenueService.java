@@ -12,6 +12,7 @@ public interface VenueService extends VenueRepository {
 	
 	public Venue findOne(long id);
 	
-	
 	public <V extends Venue> V save(V venue);
+
+	public void deleteById(long id);
 }

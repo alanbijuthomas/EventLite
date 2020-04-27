@@ -39,12 +39,36 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 		} else {
 			
 			// Create example venue and add to database
+			
+			// This have 3 venues assigned
 			Venue testVenueOne = new Venue();
 			testVenueOne.setId(1);
 			testVenueOne.setName("testVenueOne");
 			testVenueOne.setCapacity(1);
-			testVenueOne.setAddress("Street 2");
+			testVenueOne.setAddress("Address 1");
+			testVenueOne.setPostcode("Postcode 1");
+			testVenueOne.setId(1);
 			venueService.save(testVenueOne);
+			log.info("Attempting to add an example venue.");
+			
+			// This have 2 venues assigned
+			Venue testVenueTwo = new Venue();
+			testVenueTwo.setName("testVenueTwo");
+			testVenueTwo.setCapacity(1);
+			testVenueTwo.setAddress("Address 2");
+			testVenueTwo.setPostcode("Postcode 2");
+			testVenueTwo.setId(2);
+			venueService.save(testVenueTwo);
+			log.info("Attempting to add an example venue.");
+			
+			// This one has no venues assigned e.g.deletable
+			Venue testVenueThree = new Venue();
+			testVenueThree.setName("testVenueThree");
+			testVenueThree.setCapacity(1);
+			testVenueThree.setAddress("Address 3");
+			testVenueThree.setPostcode("Postcode 3");
+			testVenueThree.setId(3);
+			venueService.save(testVenueThree);
 			log.info("Attempting to add an example venue.");
 			
 			// Create example event and add to database
@@ -60,7 +84,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			// Create example event and add to database
 			Event exampleEvent2 = new Event();
 			exampleEvent2.setId(2);
-			exampleEvent2.setName("BExample BEvent 2");
+			exampleEvent2.setName("Example Event 2");
 			
 			
 			LocalDate date2 = LocalDate.now();
@@ -81,7 +105,7 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			exampleEvent3.setTime(time3);
 			exampleEvent3.setDate(date3);
-			exampleEvent3.setVenue(testVenueOne);
+			exampleEvent3.setVenue(testVenueTwo);
 			eventService.save(exampleEvent3);
 			
 			Event exampleEvent4 = new Event();
@@ -94,13 +118,13 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			
 			exampleEvent4.setTime(time4);
 			exampleEvent4.setDate(date4);
-			exampleEvent4.setVenue(testVenueOne);
+			exampleEvent4.setVenue(testVenueTwo);
 			exampleEvent4.setDescription("This is a nice event");
 			eventService.save(exampleEvent4);
 			
 			Event exampleEvent5 = new Event();
 			exampleEvent5.setId(5);
-			exampleEvent5.setName("AExample Event 5");
+			exampleEvent5.setName("Example Event 5");
 			
 			
 			LocalDate date5 = LocalDate.now().withMonth(12);

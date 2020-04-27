@@ -66,11 +66,13 @@ public class EventsControllerApi {
 	}
 
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET) public ResponseEntity < ? > newEvent() {
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public ResponseEntity < ? > newEvent() {
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
     }
     
-    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE) public ResponseEntity < ? > createEvent(@RequestBody @Valid Event event, BindingResult result) {
+    @RequestMapping(method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity < ? > createEvent(@RequestBody @Valid Event event, BindingResult result) {
         if (result.hasErrors()) {
             return ResponseEntity.unprocessableEntity().build();
         }

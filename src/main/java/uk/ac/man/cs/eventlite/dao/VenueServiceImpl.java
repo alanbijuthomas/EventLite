@@ -94,7 +94,15 @@ public class VenueServiceImpl implements VenueService {
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public void deleteById(long id) {
+//		if (venueRepository.existsById(id)) {
+//			System.out.println("Cannot delete this venue");
+//			return;
+//		}
+		venueRepository.deleteById(id);
 	}
 
 }
