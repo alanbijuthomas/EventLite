@@ -3,7 +3,14 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layouts/default}">
 <head>
-<title>Event Details</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css' rel='stylesheet' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    #map {height: 450px;  }
+  </style>
 </head>
 <body>
 	<div layout:fragment="content">
@@ -64,8 +71,33 @@
 
 			</tbody>
 		</table>
+		<div id='map'></div>
+        
+     <script th:inline="javascript">
+  
+    var lat = [[${latitude}]];
+    var lon = [[${longitude}]];
+    var name = [[${name}]];
 
-	</div>
+      L.mapbox.accessToken = 'pk.eyJ1IjoiZXZlbnRlbGl0ZWYxNTIwIiwiYSI6ImNrOWZyNzJ1NTA5NnQzbm1rOXhxcjlua3cifQ.qxpn8OXHCZFD00ydAIVM8w';
+      var map = L.mapbox.map('map')
+                 .setView([lat, lon], 15)
+                 .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+      map.scrollWheelZoom.enable();
+
+
+      var popup = L.popup().setContent(name);
+      
+      L.marker([lat, lon], {icon: L.mapbox.marker.icon({'marker-size': 'large',
+    	  'marker-symbol': 'town-hall'})})
+    	  .bindPopup(popup)
+    	  .openPopup()
+    	  .addTo(map); 
+      
+    </script>
+
+
+   </div>
 
 </body>
 </html>

@@ -65,7 +65,7 @@ public class VenueControllerApi {
             return ResponseEntity.unprocessableEntity().build();
         }
         venueService.save(venue);
-        URI location = linkTo(EventsControllerApi.class).slash(venue.getId()).toUri();
+        URI location = linkTo(VenueControllerApi.class).slash(venue.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
     

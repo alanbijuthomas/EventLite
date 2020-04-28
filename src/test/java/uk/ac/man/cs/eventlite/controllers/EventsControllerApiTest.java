@@ -39,7 +39,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import uk.ac.man.cs.eventlite.EventLite;
@@ -120,6 +120,8 @@ public class EventsControllerApiTest {
 	
 	@Test
 	public void addEvent() throws Exception {
+		
+		
 		Venue v = new Venue();
 		v.setName("Venue");
 		v.setCapacity(1);
@@ -127,12 +129,6 @@ public class EventsControllerApiTest {
 		v.setPostcode("hfear");
 		venueService.save(v);
 		
-		MultiValueMap<String, String> eventParams = new LinkedMultiValueMap<String, String>();
-		eventParams.add("id", "0");
-		eventParams.add("name", "Event");
-		eventParams.add("date", LocalDate.now().toString());
-		eventParams.add("date", LocalTime.now().toString());
-		eventParams.add("event", "Venue");
 		
 		Event e = new Event();
 		e.setId(0);
@@ -142,17 +138,21 @@ public class EventsControllerApiTest {
 		e.setVenue(v);
 		
 		mvc.perform( MockMvcRequestBuilders
-			      .post("/api/events",new BeanPropertyBindingResult(e,"Event")).with(user("Rob").roles(Security.ADMIN_ROLE))
-			      .params(eventParams)
+			      .post("/api/events").with(user("Rob").roles(Security.ADMIN_ROLE))
+			      .content(asJsonBytes(e))
 			      .contentType(MediaType.APPLICATION_JSON_VALUE))
 			      .andExpect(status().isCreated())
 			      .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
 		
 	}
 	
-	private static String asJsonString(final Object obj) {
+	
+	
+	private static byte[] asJsonBytes(final Object obj) {
 	    try {
-	        return new ObjectMapper().writeValueAsString(obj);
+	    	ObjectMapper mapper = new ObjectMapper();
+	    	
+	        return mapper.writeValueAsBytes(obj);
 	    } catch (Exception e) {
 	        throw new RuntimeException(e);
 	    }
