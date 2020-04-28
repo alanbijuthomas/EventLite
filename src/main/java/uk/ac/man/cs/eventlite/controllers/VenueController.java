@@ -51,13 +51,19 @@ public class VenueController {
         venueService.save(venue);
         redirectAttrs.addFlashAttribute("ok_message", "New Venue added.");
         
-        return "redirect:/events";
+        return "redirect:/venues";
     }
 	 
     
     @GetMapping("/update/{id}")
 	public String updateVenue(@PathVariable("id") long id, Model model)  {
-		model.addAttribute("venue", venueService.findOne(id));
+		//model.addAttribute("venue", venueService.findOne(id));
+		Venue venue = venueService.findOne(id);
+		model.addAttribute("venue", venue);
+		model.addAttribute("name", venue.getName());
+		model.addAttribute("address", venue.getAddress());
+		model.addAttribute("postcode", venue.getPostcode());
+		model.addAttribute("capacity", venue.getCapacity());
 		return "venues/update-venue";
 	}
 	
@@ -92,6 +98,39 @@ public class VenueController {
 
 	
 	
-	
+	    
+    @RequestMapping(value = "/details-venue/{id}", method = RequestMethod.GET)
+	public String getVenue(@PathVariable("id") long id, Model model) {
 
+		Venue venue = venueService.findOne(id);
+		model.addAttribute("id", id);
+		model.addAttribute("name", venue.getName());
+		model.addAttribute("address", venue.getAddress());
+		model.addAttribute("postcode", venue.getPostcode());
+		model.addAttribute("capacity", venue.getCapacity());
+		
+//		List<Event> futureListSearch = new ArrayList<Event>();
+//		
+//		Iterator<Event> allEventsSearch = eventService.findAllByNameContainingIgnoreCase(venue.getName()).iterator();
+//		while(allEventsSearch.hasNext())
+//		{
+//			Event event = allEventsSearch.next();
+//			if(event.getDate().compareTo(LocalDate.now()) >= 0)
+//				futureListSearch.add(event);
+//		}
+//		model.addAttribute("future_events_search", futureListSearch);
+
+		return "venues/details-venue";
+	}
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public String deleteVenue(@PathVariable("id") long id) {
+//		if (venueService.existsById(id)) {
+//			System.out.println("Cannot delete this venue");
+//			return null;
+//		}
+		venueService.deleteById(id);
+
+		return "redirect:/venues";
+	}
 }

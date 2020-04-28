@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -67,5 +68,38 @@ public class VenueControllerApi {
         URI location = linkTo(EventsControllerApi.class).slash(venue.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
-     
+    
+    @RequestMapping(value = "/details-venue/{id}", method = RequestMethod.GET)
+	public Resource<Venue> venueDetails(@PathVariable("id") long id) {
+		Venue venue = venueService.findOne(id);
+
+		return venue2Resource(venue);
+	}
+
+	private Resource<Venue> venue2Resource(Venue venue) {
+		Link selfLink = linkTo(VenueControllerApi.class).slash(venue.getId()).withSelfRel();
+
+		return new Resource<Venue>(venue, selfLink);
+	}
+	
+//    private Resources<Resource<Venue>> venueToResource(Iterable<Venue> venues) {
+//		Link selfLink = linkTo(methodOn(EventsControllerApi.class).getAllEvents()).withSelfRel();
+//
+//		List<Resource<Venue>> resources = new ArrayList<Resource<Venue>>();
+//		for (Venue venue : venues) {
+//			resources.add(venueToResource(venue));
+//		}
+//
+//		return new Resources<Resource<Venue>>(resources, selfLink);
+//	}
+    
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteVenue(@PathVariable("id") long id){
+//		if (venueService.existsById(id)) {
+//			System.out.println("Cannot delete this venue");
+//			return null;
+//		}
+		venueService.deleteById(id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
 }

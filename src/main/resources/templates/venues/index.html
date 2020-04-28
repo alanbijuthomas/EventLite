@@ -11,7 +11,7 @@
     <!--  add venue button -->
     <div sec:authorize="isAuthenticated()">
       <a class="btn btn-primary" role="button" th:href="@{venues/new-venue}">
-        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add venue
+        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add Venue
       </a>
     </div>
     
@@ -48,9 +48,8 @@
       </thead>
       <tbody>
         <tr th:each="v : ${venue_search}">
-          <td><a th:text="${v.name}">My Venue</a></td>
         <!-- When the extra details about the venue is done uncomment the next line and comment/delete the one above -->
-        <!--  <td> <a th:href="@{/venues/details-venues/{num}(num=${v.id})}" th:text="${v.name}">My Venue</a></td> -->
+          <td> <a th:href="@{/venues/details-venue/{num}(num=${v.id})}" th:text="${v.name}">My Venue</a></td>
           <td th:text="${{v.address}}">Venue address</td>
           <td th:text="${{v.postcode}}">Venue postcode</td>
           <td th:text="${{v.capacity}}">Venue capacity</td>
@@ -75,9 +74,8 @@
       </thead>
       <tbody>
         <tr th:each="v : ${venues}">
-          <td><a th:text="${v.name}">My Venue</a></td>
         <!-- When the extra details about the venue is done uncomment the next line and comment/delete the one above -->
-        <!--  <td> <a th:href="@{/venues/details-venues/{num}(num=${v.id})}" th:text="${v.name}">My Venue</a></td> -->
+          <td> <a th:href="@{/venues/details-venue/{num}(num=${v.id})}" th:text="${v.name}">My Venue</a></td>
           <td th:text="${{v.address}}">Venue address</td>
           <td th:text="${{v.postcode}}">Venue postcode</td>
           <td th:text="${{v.capacity}}">Venue capacity</td>

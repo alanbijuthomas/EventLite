@@ -45,6 +45,15 @@ public class VenueServiceImpl implements VenueService {
 		return (venueRepository.findAllByNameContainingIgnoreCase(name));
 	}
 	
+	public Optional<Venue> findById(Long id) {
+		return(venueRepository.findById(id));
+	}
+	
+	@Override
+	public Venue findOne(long id) {		
+		return findById(id).orElse(null);
+	}
+	
 	@Override
 	public <V extends Venue> V save(V venue)
 	{
@@ -55,16 +64,6 @@ public class VenueServiceImpl implements VenueService {
 	public <S extends Venue> Iterable<S> saveAll(Iterable<S> entities) {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public Optional<Venue> findById(Long id) {
-		return(venueRepository.findById(id));
-	}
-	
-	@Override
-	public Venue findOne(long id) {		
-		return findById(id).orElse(null);
 	}
 
 	@Override
@@ -100,7 +99,15 @@ public class VenueServiceImpl implements VenueService {
 	@Override
 	public void deleteAll() {
 		// TODO Auto-generated method stub
-		
+	}
+	
+	@Override
+	public void deleteById(long id) {
+//		if (venueRepository.existsById(id)) {
+//			System.out.println("Cannot delete this venue");
+//			return;
+//		}
+		venueRepository.deleteById(id);
 	}
 
 }

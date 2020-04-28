@@ -11,12 +11,15 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name = "venue")
+@Table(name = "venues")
 public class Venue {
 
 	@Id
 	@GeneratedValue
 	private long id;
+	
+	@NotNull(message = "The event must have a name.")
+	@Size(max = 256, message = "The venue's name must have 256 characters or less.")
 
 	@NotNull(message = "The venue must have a name.")
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -32,7 +35,7 @@ public class Venue {
 	@NotNull(message = "The venue must have a postcode.")
 	private String postcode;
 
-	@NotNull
+	@NotNull(message = "The event must have a capacity number.")
 	@Min(0)
 	private int capacity;
 
@@ -54,6 +57,14 @@ public class Venue {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public int getCapacity() {
 		return capacity;
@@ -69,13 +80,5 @@ public class Venue {
 
 	public void setPostcode(String postcode) {
 		this.postcode = postcode;
-	}
-
-	public String getAddress() {
-		return address;
-	}
-
-	public void setAddress(String address) {
-		this.address = address;
 	}
 }

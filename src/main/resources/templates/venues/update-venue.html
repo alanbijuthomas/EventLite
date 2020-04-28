@@ -27,7 +27,7 @@
 			<div class="form-group col-md-6"
 				th:classappend="${#fields.hasErrors('capacity')}? has-error">
 				<label for="capacity">Capacity:</label><a class="text-danger"> *</a> <input
-					class="form-control" type="capacity" name="capacity" id="capacity"
+					class="form-control" type="text" name="capacity" id="capacity"
 					th:field="*{capacity}" placeholder="Capacity" autofocus="autofocus"
 					required />
 				<p class="text-danger" th:if="${#fields.hasErrors('capacity')}"
@@ -36,7 +36,7 @@
 			<div class="form-group col-md-6"
 				th:classappend="${#fields.hasErrors('address')}? has-error">
 				<label for="address">Address:</label><a class="text-danger"> *</a> <input
-					class="form-control" type="address" name="address" id="address"
+					class="form-control" type="text" name="address" id="address"
 					th:field="*{address}" placeholder="Address" autofocus="autofocus"
 					required />
 				<p class="text-danger" th:if="${#fields.hasErrors('address')}"
@@ -44,9 +44,10 @@
 			</div>		
 			<div class="form-group col-md-6"
 				th:classappend="${#fields.hasErrors('postcode')}? has-error">
-				<label for="postcode">Postcode:</label> <input class="form-control"
-					type="postcode" name="postcode" id="postcode" th:field="*{postcode}"
-					placeholder="Postcode" autofocus="autofocus" />
+				<label for="postcode">Postcode:</label><a class="text-danger"> * <input
+					class="form-control" type="text" name="postcode" id="postcode"
+					th:field="*{postcode}" placeholder="Postcode" autofocus="autofocus"
+					required />
 				<p class="text-danger" th:if="${#fields.hasErrors('postcode')}"
 					th:errors="*{postcode}">errors</p>
 			</div>
