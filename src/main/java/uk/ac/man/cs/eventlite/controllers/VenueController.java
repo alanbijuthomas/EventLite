@@ -74,6 +74,8 @@ public class VenueController {
         return "redirect:/venues";
     }
     
+    
+    // Method to add longitude and latitude to a given event
     private void addLongLat(Venue v) throws IOException
 	{
 		String address = v.getAddress();
@@ -104,6 +106,7 @@ public class VenueController {
 		model.addAttribute("address", venue.getAddress());
 		model.addAttribute("postcode", venue.getPostcode());
 		model.addAttribute("capacity", venue.getCapacity());
+		
 		return "venues/update-venue";
 	}
 	
@@ -115,6 +118,14 @@ public class VenueController {
 			model.addAttribute("venue", venueService.findOne(id));
 	        return "venues/update-venue";
 	    }
+		
+		// update the longitude and latitude
+		try {
+			addLongLat(venue);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		venueService.save(venue);
         model.addAttribute("venueList", venueService.findAll());
 		return "redirect:/venues";
@@ -182,6 +193,9 @@ public class VenueController {
 		model.addAttribute("address", venue.getAddress());
 		model.addAttribute("postcode", venue.getPostcode());
 		model.addAttribute("capacity", venue.getCapacity());
+		model.addAttribute("longitude",venue.getLongitude());
+		model.addAttribute("latitude",venue.getLatitude());
+		
 		
 //		List<Event> futureListSearch = new ArrayList<Event>();
 //		
