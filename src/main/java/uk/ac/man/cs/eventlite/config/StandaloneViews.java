@@ -11,7 +11,7 @@ public class StandaloneViews implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		
 		registry.addViewController("/sign-in").setViewName("security/sign-in");
-		
+		registry.addViewController("/venues/new-venue").setViewName("venues/new-venue");
 		registry.addViewController("/new").setViewName("events/new");
 		
 	}

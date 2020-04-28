@@ -9,9 +9,10 @@
   <div layout:fragment="content">
   	<div sec:authorize="isAuthenticated()">
       <a class="btn btn-primary" role="button" th:href="@{events/new}">
-        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add event
+        <i class="fas fa-sign-in-alt" aria-hidden="true"></i> Add Event
       </a>
     </div>
+    
     <form method="get" action="../">
     	<button type="submit" class="btn btn-primary">
     		<i class="fas fa-undo" aria-hidden="true"></i>
@@ -26,6 +27,7 @@
 		<input type="text" name="search" id="search" placeholder="Search events"/>
 		<input type="submit" value="search"/>		
 	</form>
+	
 
 	<!--  Displays results of search query-->
 	<div th:if="${search}">
@@ -43,7 +45,7 @@
 	      <tbody>
 	        <tr th:each="e : ${future_events_search}">
           <td> <a th:href="@{/events/details-event/{num}(num=${e.id})}" th:text="${e.name}">My Event</a></td>
-	          <td th:text="${e.venue.name}">Event venue</td>
+	      <td> <a th:href="@{/venues/details-venue/{num}(num=${e.venue.id})}" th:text="${e.venue.name}"> Event venue</a></td>
 	          <td th:text="${{e.date}}">Event date</td>
 	          <td th:text="${{e.time}}">Event time</td>
 	        </tr>
@@ -63,7 +65,7 @@
 	      <tbody>
 	        <tr th:each="e : ${past_events_search}">
           <td> <a th:href="@{/events/details-event/{num}(num=${e.id})}" th:text="${e.name}">My Event</a></td>
-	          <td th:text="${e.venue.name}">Event venue</td>
+	      <td> <a th:href="@{/venues/details-venue/{num}(num=${e.venue.id})}" th:text="${e.venue.name}"> Event venue</a></td>
 	          <td th:text="${{e.date}}">Event date</td>
 	          <td th:text="${{e.time}}">Event time</td>
 	        </tr>
@@ -88,7 +90,7 @@
       <tbody>
         <tr th:each="e : ${future_events}">
           <td> <a th:href="@{/events/details-event/{num}(num=${e.id})}" th:text="${e.name}">My Event</a></td>
-          <td th:text="${e.venue.name}">Event venue</td>
+          <td> <a th:href="@{/venues/details-venue/{num}(num=${e.venue.id})}" th:text="${e.venue.name}"> Event venue</a></td>
           <td th:text="${{e.date}}">Event date</td>
           <td th:text="${{e.time}}">Event time</td>
         </tr>
@@ -109,7 +111,7 @@
       <tbody>
         <tr th:each="e : ${past_events}">
           <td> <a th:href="@{/events/details-event/{num}(num=${e.id})}" th:text="${e.name}">My Event</a></td>
-          <td th:text="${e.venue.name}">Event venue</td>
+          <td> <a th:href="@{/venues/details-venue/{num}(num=${e.venue.id})}" th:text="${e.venue.name}"> Event venue</a></td>
           <td th:text="${{e.date}}">Event date</td>
           <td th:text="${{e.time}}">Event time</td>
         </tr>

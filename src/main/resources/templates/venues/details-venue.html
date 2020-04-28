@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/default}">
+<head>
+  <title>Venue Details</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <h1>More information on the venue</h1>
+
+    <table class="table table-striped table-hover">
+      <tbody>
+        <tr>
+          <td>Name</td>
+          <td th:text="${name}">My Venue</td>
+        </tr>
+        
+        <tr>
+          <td>Address</td>
+          <td th:text="${address}">Venue address</td>
+        </tr>
+        
+        <tr>
+          <td>Postcode</td>
+          <td th:text="${postcode}">Venue postcode</td>
+        </tr>
+        
+        <tr>
+          <td>Capacity</td>
+          <td th:text="${capacity}">Venue capacity</td>
+        </tr>
+        
+		<div sec:authorize="hasRole('ADMINISTRATOR')">
+			<tr>
+				<form th:action="@{/venues/update/{id}(id=${id})}" th:method="get">
+					<button type="submit" class="btn btn-primary">
+						<i class="fas fa-edit" aria-hidden="true"></i> Update
+					</button>
+				</form>
+			</tr>
+
+			<tr>
+				<form th:action="@{/venues/{id}(id=${id})}" th:method="delete">
+					<button type="submit" class="btn btn-danger">
+						<i class="fas fa-trash" aria-hidden="true"></i> Delete
+					</button>
+				</form>
+			</tr>
+		</div>
+        
+        <tr>
+            <form method="get" action="/venues">
+    		  <button type="submit" class="btn btn-primary">
+    			<i class="fas fa-undo" aria-hidden="true"></i>
+    				Back
+    		  </button>
+			</form>
+        </tr>
+		 
+      </tbody>
+    </table>
+    
+    <h2>Future events on this venue: </h2>
+    
+    <!--<table class="table table-striped table-hover">
+    
+    	<thead>
+	        <tr>
+	          <th><i class="fas fa-bolt"></i> Event name</th>
+	        </tr>
+		</thead>
+	    <tbody>
+	        <tr th:each="e : ${future_events_search}">
+          <td> <a th:href="@{/events/details-event/{num}(num=${e.id})}" th:text="${e.name}">My Event</a></td>
+	        </tr>
+	    </tbody>
+    </table>-->
+
+  </div>
+
+</body>
+</html>
