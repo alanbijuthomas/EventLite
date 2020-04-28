@@ -114,6 +114,23 @@ public class VenueController {
 		model.addAttribute("venue_search", venueService.findAllByNameContainingIgnoreCase(searchTerm));
 		getAllVenues(model);
 		
+		List<Venue> venues_with_events_searched = new ArrayList<Venue>();
+        List<Venue> empty_venues_searched = new ArrayList<Venue>();
+        Iterator<Venue> venues_searched = venueService.findAllByNameContainingIgnoreCase(searchTerm).iterator();
+        
+        while (venues_searched.hasNext()) {
+        	Venue v = venues_searched.next();
+        	// venue has events
+        	if (!v.getEvents().isEmpty()) {
+        		venues_with_events_searched.add(v);
+        	} else { // venue does not have events
+        		empty_venues_searched.add(v);
+        	}
+        }
+        
+        model.addAttribute("venues_with_events_searched", venues_with_events_searched);
+        model.addAttribute("empty_venues_searched", empty_venues_searched);
+		
 		return "venues/index";
 	} // searchVenueName
 
