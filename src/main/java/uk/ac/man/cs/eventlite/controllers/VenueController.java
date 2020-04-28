@@ -1,5 +1,9 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +87,23 @@ public class VenueController {
 	@RequestMapping(method = RequestMethod.GET)
     public String getAllVenues(Model model) {
         model.addAttribute("venues", venueService.findAll());
+        
+        List<Venue> venues_with_events = new ArrayList<Venue>();
+        List<Venue> empty_venues = new ArrayList<Venue>();
+        Iterator<Venue> venues = venueService.findAll().iterator();
+        
+        while (venues.hasNext()) {
+        	Venue v = venues.next();
+        	// venue has events
+        	if (!v.getEvents().isEmpty()) {
+        		venues_with_events.add(v);
+        	} else { // venue does not have events
+        		empty_venues.add(v);
+        	}
+        }
+        
+        model.addAttribute("venues_with_events", venues_with_events);
+        model.addAttribute("empty_venues", empty_venues);
 
         return "venues/index";
     }
@@ -92,6 +113,23 @@ public class VenueController {
 	public String searchVenueName(@RequestParam (value = "search", required = false) String searchTerm, Model model) {
 		model.addAttribute("venue_search", venueService.findAllByNameContainingIgnoreCase(searchTerm));
 		getAllVenues(model);
+		
+		List<Venue> venues_with_events_searched = new ArrayList<Venue>();
+        List<Venue> empty_venues_searched = new ArrayList<Venue>();
+        Iterator<Venue> venues_searched = venueService.findAllByNameContainingIgnoreCase(searchTerm).iterator();
+        
+        while (venues_searched.hasNext()) {
+        	Venue v = venues_searched.next();
+        	// venue has events
+        	if (!v.getEvents().isEmpty()) {
+        		venues_with_events_searched.add(v);
+        	} else { // venue does not have events
+        		empty_venues_searched.add(v);
+        	}
+        }
+        
+        model.addAttribute("venues_with_events_searched", venues_with_events_searched);
+        model.addAttribute("empty_venues_searched", empty_venues_searched);
 		
 		return "venues/index";
 	} // searchVenueName

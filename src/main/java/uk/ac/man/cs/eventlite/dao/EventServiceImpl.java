@@ -39,6 +39,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public <S extends Event> S save(S entity) {
+		entity.getVenue().addEvent(entity);
 		return(eventRepository.save(entity));
 	}
 
