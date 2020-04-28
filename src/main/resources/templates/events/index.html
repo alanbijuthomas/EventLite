@@ -4,6 +4,14 @@
       layout:decorate="~{layouts/default}">
 <head>
   <title>All Events</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <script src='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.js'></script>
+  <link href='https://api.mapbox.com/mapbox.js/v3.2.1/mapbox.css' rel='stylesheet' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  <style>
+    #map {height: 450px;  }
+  </style>
 </head>
 <body>
   <div layout:fragment="content">
@@ -123,7 +131,27 @@
       </tbody>
     </table>
   	<br>
-  
+  	<div id='map'></div>
+  	<script th:inline="javascript">
+  	/*<![CDATA[*/
+
+  	L.mapbox.accessToken = 'pk.eyJ1IjoiZXZlbnRlbGl0ZWYxNTIwIiwiYSI6ImNrOWZyNzJ1NTA5NnQzbm1rOXhxcjlua3cifQ.qxpn8OXHCZFD00ydAIVM8w';
+      var map = L.mapbox.map('map')
+      			.setView([0,0],3)
+                 .addLayer(L.mapbox.styleLayer('mapbox://styles/mapbox/streets-v11'));
+      
+      
+     	 /*[# th:each="n : ${future_events}"]*/
+  			var lat = [(${n.venue.latitude})];
+    		var lon = [(${n.venue.longitude})];
+    		L.marker([lat, lon]).addTo(map);
+	 	 /*[/]*/
+    
+      map.scrollWheelZoom.enable();
+     /*]]>*/
+
+      
+    </script>
   
   </div>
   
