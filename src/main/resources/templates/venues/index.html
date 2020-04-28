@@ -70,19 +70,33 @@
           <th><i class="fas fa-map-marker-alt"></i> Address</th>
           <th><i class="fas fa-envelope"></i> Postcode</th>
           <th><i class="fas fa-users"></i> Capacity</th>
+          <th><i class="fas fa-pen"></i> Edit</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="v : ${venues}">
+        <tr th:each="v : ${venues_with_events}">
         <!-- When the extra details about the venue is done uncomment the next line and comment/delete the one above -->
           <td> <a th:href="@{/venues/details-venue/{num}(num=${v.id})}" th:text="${v.name}">My Venue</a></td>
           <td th:text="${{v.address}}">Venue address</td>
           <td th:text="${{v.postcode}}">Venue postcode</td>
           <td th:text="${{v.capacity}}">Venue capacity</td>
+          <td> This venue can't be deleted </td>
+        </tr>
+        <tr th:each="v : ${empty_venues}">
+          <td> <a th:href="@{/venues/details-venue/{num}(num=${v.id})}" th:text="${v.name}">My Venue</a></td>
+          <td th:text="${{v.address}}">Venue address</td>
+          <td th:text="${{v.postcode}}">Venue postcode</td>
+          <td th:text="${{v.capacity}}">Venue capacity</td>
+          <td sec:authorize="hasRole('ADMINISTRATOR')">
+			<form th:action="@{/venues/{id}(id=${v.id})}" th:method="delete">
+				<button type="submit" class="btn btn-danger">
+					<i class="fas fa-trash" aria-hidden="true"></i> Delete
+				</button>
+			</form>
+		  </td>
         </tr>
       </tbody>
     </table>
   </div>
-
 </body>
 </html>

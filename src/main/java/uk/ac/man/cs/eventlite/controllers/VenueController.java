@@ -1,5 +1,9 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,6 +87,23 @@ public class VenueController {
 	@RequestMapping(method = RequestMethod.GET)
     public String getAllVenues(Model model) {
         model.addAttribute("venues", venueService.findAll());
+        
+        List<Venue> venues_with_events = new ArrayList<Venue>();
+        List<Venue> empty_venues = new ArrayList<Venue>();
+        Iterator<Venue> venues = venueService.findAll().iterator();
+        
+        while (venues.hasNext()) {
+        	Venue v = venues.next();
+        	// venue has events
+        	if (!v.getEvents().isEmpty()) {
+        		venues_with_events.add(v);
+        	} else { // venue does not have events
+        		empty_venues.add(v);
+        	}
+        }
+        
+        model.addAttribute("venues_with_events", venues_with_events);
+        model.addAttribute("empty_venues", empty_venues);
 
         return "venues/index";
     }
