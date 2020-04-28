@@ -144,8 +144,15 @@
      	 /*[# th:each="n : ${future_events}"]*/
   			var lat = [(${n.venue.latitude})];
     		var lon = [(${n.venue.longitude})];
-    		L.marker([lat, lon]).addTo(map);
-	 	 /*[/]*/
+			var name = "[(${n.name})]";
+    		
+    	      var popup = L.popup().setContent(name);
+    		
+    	      L.marker([lat, lon], {icon: L.mapbox.marker.icon({'marker-size': 'large'})})
+    	    	  .bindPopup(popup)
+    	    	  .openPopup()
+    	    	  .addTo(map);
+    	  /*[/]*/
     
       map.scrollWheelZoom.enable();
      /*]]>*/
