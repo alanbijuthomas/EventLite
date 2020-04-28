@@ -77,7 +77,7 @@ public class VenueController {
 				.accessToken(accessToken)
 				.query(query)
 				.mode(GeocodingCriteria.MODE_PLACES)
-				.limit(1)
+				.limit(1) // limited to one search result to preserve API requests
 				.build();
 		
 		Response<GeocodingResponse> response = client.executeCall();
