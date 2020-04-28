@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,6 +38,7 @@ public class EventsController {
 
 
 	@GetMapping
+	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
 		List<Event> futureList = new ArrayList<Event>();
 		List<Event> pastList = new ArrayList<Event>();
@@ -52,6 +55,7 @@ public class EventsController {
 		
 		model.addAttribute("future_events", futureList);
 		model.addAttribute("past_events", pastList);
+
 		return "events/index";
 	}
 	
