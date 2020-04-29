@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import uk.ac.man.cs.eventlite.dao.EventService;
 import uk.ac.man.cs.eventlite.entities.Event;
+import uk.ac.man.cs.eventlite.dao.VenueService;
+import uk.ac.man.cs.eventlite.entities.Venue;
 
 @Controller
 @RequestMapping(value = "/", produces = { MediaType.TEXT_HTML_VALUE })
@@ -22,13 +24,21 @@ public class HomeController {
 
 	@Autowired
 	private EventService eventService;
+	
+	@Autowired
+	private VenueService venueService;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String getAllEvents(Model model) {
+	public String getAll(Model model) {
 		
 		model.addAttribute("eventsThree", 
 				StreamSupport.stream(
 						eventService.findAllUpcoming().spliterator(), false)
+								.limit(3).collect(Collectors.toList()));
+		
+		model.addAttribute("venuesThree", 
+				StreamSupport.stream(
+						venueService.findMostPopular().spliterator(), false)
 								.limit(3).collect(Collectors.toList()));
 		
 		return "index";

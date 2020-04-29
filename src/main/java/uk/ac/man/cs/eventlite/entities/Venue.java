@@ -51,6 +51,8 @@ public class Venue {
 	@OneToMany(targetEntity=Event.class, mappedBy="venue", fetch = FetchType.LAZY)
 	private List<Event> events = new ArrayList<Event>();
 	
+	private int eventCount;
+	
 	public Venue() {
 	}
 
@@ -96,6 +98,7 @@ public class Venue {
 	
 	public void addEvent(Event event) {
 		this.events.add(event);
+		eventCount = events.size();
 	}
 	
 	public List<Event> getEvents() {
@@ -117,4 +120,13 @@ public class Venue {
 	public void setLatitude(double latitude) {
 		this.latitude = latitude;
 	}
+	
+	public int getEventCount() {
+		return events.size();
+	}
+
+	public void setEventCount(int eventsNum) {
+		this.eventCount = events.size();
+	}
+	
 }

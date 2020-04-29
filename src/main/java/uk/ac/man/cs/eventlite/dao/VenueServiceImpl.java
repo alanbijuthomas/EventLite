@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -108,6 +109,17 @@ public class VenueServiceImpl implements VenueService {
 //			return;
 //		}
 		venueRepository.deleteById(id);
+	}
+
+	@Override
+	public List<Venue> findMostPopular() {
+		return venueRepository.findAll(Sort.by(Sort.Direction.DESC, "eventCount"));
+	}
+
+	@Override
+	public List<Venue> findAll(Sort sort) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
