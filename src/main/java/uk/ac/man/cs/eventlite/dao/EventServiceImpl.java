@@ -1,5 +1,7 @@
 package uk.ac.man.cs.eventlite.dao;
 
+import java.time.LocalDate;
+
 // Remove unused packages when ready
 
 import java.util.Optional;
@@ -70,6 +72,11 @@ public class EventServiceImpl implements EventService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public Iterable<Event> findAllUpcoming() {
+		return eventRepository.findAllByDateAfterOrderByDateAscNameAsc(LocalDate.now().minusDays(1));
+	}
 
 	@Override
 	public void deleteById(Long id) {
@@ -98,6 +105,12 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void deleteEventById(long id) {
 		eventRepository.deleteById(id);
+	}
+
+	@Override
+	public Iterable<Event> findAllByDateAfterOrderByDateAscNameAsc(LocalDate minusDays) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

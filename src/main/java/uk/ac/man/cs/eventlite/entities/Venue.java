@@ -44,8 +44,11 @@ public class Venue {
 	@NotNull(message = "The event must have a capacity number.")
 	@Min(0)
 	private int capacity;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING)
+	private double longitude, latitude;
 
-	@OneToMany(targetEntity=Event.class, mappedBy="venue",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity=Event.class, mappedBy="venue", fetch = FetchType.LAZY)
 	private List<Event> events = new ArrayList<Event>();
 	
 	public Venue() {
@@ -97,5 +100,21 @@ public class Venue {
 	
 	public List<Event> getEvents() {
 		return events;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(double longitude) {
+		this.longitude = longitude;
+	}
+
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(double latitude) {
+		this.latitude = latitude;
 	}
 }
