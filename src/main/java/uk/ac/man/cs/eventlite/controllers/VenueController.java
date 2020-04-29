@@ -1,9 +1,16 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.io.IOException;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -213,10 +220,12 @@ public class VenueController {
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public String deleteVenue(@PathVariable("id") long id) {
-//		if (venueService.existsById(id)) {
-//			System.out.println("Cannot delete this venue");
-//			return null;
-//		}
+		if (!venueService.findOne(id).getEvents().isEmpty()) {
+			String infoMessage = "Cannot delete this venue";
+			System.out.println(infoMessage);
+			return "redirect:/venues/details-venue/" + id;
+		}
+		
 		venueService.deleteById(id);
 
 		return "redirect:/venues";

@@ -48,7 +48,7 @@ public class Venue {
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	private double longitude, latitude;
 
-	@OneToMany(targetEntity=Event.class, mappedBy="venue",cascade=CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(targetEntity=Event.class, mappedBy="venue", fetch = FetchType.LAZY)
 	private List<Event> events = new ArrayList<Event>();
 	
 	public Venue() {

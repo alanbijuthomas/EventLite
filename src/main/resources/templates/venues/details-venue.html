@@ -57,6 +57,14 @@
     		  </button>
 			</form>
         </tr>
+        
+        <tr sec:authorize="hasRole('ADMINISTRATOR')">
+			<form th:action="@{/venues/{id}(id=${id})}" th:method="delete">
+				<button type="submit" class="btn btn-danger">
+					<i class="fas fa-trash" aria-hidden="true"></i> Delete
+				</button>
+			</form>
+		</tr>
 		 
       </tbody>
     </table>
