@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -203,17 +204,17 @@ public class VenueController {
 		model.addAttribute("longitude",venue.getLongitude());
 		model.addAttribute("latitude",venue.getLatitude());
 		
+		List<Event> events = venue.getEvents();
+		List<Event> futureEvents = new ArrayList<Event>();
 		
-//		List<Event> futureListSearch = new ArrayList<Event>();
-//		
-//		Iterator<Event> allEventsSearch = eventService.findAllByNameContainingIgnoreCase(venue.getName()).iterator();
-//		while(allEventsSearch.hasNext())
-//		{
-//			Event event = allEventsSearch.next();
-//			if(event.getDate().compareTo(LocalDate.now()) >= 0)
-//				futureListSearch.add(event);
-//		}
-//		model.addAttribute("future_events_search", futureListSearch);
+		for (int i = 0; i < events.size(); i++)
+		{
+			Event event = events.get(i);
+			if(event.getDate().compareTo(LocalDate.now()) >= 0)
+				futureEvents.add(event);
+		}
+		
+		model.addAttribute("future_events", futureEvents);
 
 		return "venues/details-venue";
 	}
