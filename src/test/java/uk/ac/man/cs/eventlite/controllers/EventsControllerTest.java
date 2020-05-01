@@ -116,4 +116,37 @@ public class EventsControllerTest {
 		
 		verify(eventService).deleteEventById(1);
 	}
+	
+	@Test
+	public void searchNoEventsTest() throws Exception
+	{
+		when(eventService.findAllByNameContainingIgnoreCase(null)).thenReturn(Collections.<Event> emptyList());
+		
+		mvc.perform(get("/events/search-by-name?search=t").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("events/index")).andExpect(handler().methodName("searchEventName"));
+		
+		verify(eventService).findAllByNameContainingIgnoreCase("t");
+		verifyZeroInteractions(event);
+		verifyZeroInteractions(venue);
+	}
+	
+	@Test
+	public void searchEventsTest() throws Exception
+	{
+		Event e = new Event();
+		e.setId(0);
+		e.setName("Event");
+		e.setDate(LocalDate.now());
+		e.setTime(LocalTime.now());
+		when(eventService.findAll()).thenReturn(Collections.<Event>singletonList(e));
+		
+		mvc.perform(get("/events/search-by-name?search=t").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("events/index")).andExpect(handler().methodName("searchEventName"));
+		
+		verify(eventService).findAllByNameContainingIgnoreCase("t");
+		verifyZeroInteractions(event);
+		verifyZeroInteractions(venue);
+	}
+	
+
 }

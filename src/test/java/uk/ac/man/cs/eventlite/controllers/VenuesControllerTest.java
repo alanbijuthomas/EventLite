@@ -3,12 +3,16 @@ package uk.ac.man.cs.eventlite.controllers;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.atLeastOnce;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collections;
 
 import javax.servlet.Filter;
@@ -77,9 +81,8 @@ public class VenuesControllerTest {
 		mvc.perform(get("/venues").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(view().name("venues/index")).andExpect(handler().methodName("getAllVenues"));
 
-		verify(venueService).findAll();
+		verify(venueService, atLeastOnce()).findAll();
 		verifyZeroInteractions(event);
-		verifyZeroInteractions(venue);
 	}
 	
 	@Test
@@ -89,8 +92,33 @@ public class VenuesControllerTest {
 		mvc.perform(get("/venues").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
 				.andExpect(view().name("venues/index")).andExpect(handler().methodName("getAllVenues"));
 
-		verify(venueService).findAll();
+		verify(venueService, atLeastOnce()).findAll();
 		verifyZeroInteractions(event);
 		verifyZeroInteractions(venue);
+	}
+	
+	@Test
+	public void searchNoVenuesTest() throws Exception
+	{
+		when(venueService.findAllByNameContainingIgnoreCase(null)).thenReturn(Collections.<Venue> singletonList(venue));
+		
+		mvc.perform(get("/venues/search-by-venue-name?search=t").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("venues/index")).andExpect(handler().methodName("searchVenueName"));
+		
+		verify(venueService, atLeastOnce()).findAllByNameContainingIgnoreCase("t");
+		verifyZeroInteractions(event);
+		verifyZeroInteractions(venue);
+	}
+	
+	@Test
+	public void searchVenuesTest() throws Exception
+	{
+		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(venue));
+		
+		mvc.perform(get("/venues/search-by-venue-name?search=t").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("venues/index")).andExpect(handler().methodName("searchVenueName"));
+		
+		verify(venueService, atLeastOnce()).findAllByNameContainingIgnoreCase("t");
+		verifyZeroInteractions(event);
 	}
 }
