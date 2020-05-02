@@ -11,6 +11,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.conf.ConfigurationBuilder;
 
 public class TweetImpl {
+	
+	/////////////////////////////////////////////////////////////////////
+	/// This field needs to be updated once the new tokens been given ///
+	/////////////////////////////////////////////////////////////////////
 
 	private String key = "5id5Sn88Q4LLC4ItpfbHARaGG";
 	
