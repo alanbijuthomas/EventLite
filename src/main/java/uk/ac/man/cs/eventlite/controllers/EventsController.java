@@ -123,7 +123,6 @@ public class EventsController {
 		model.addAttribute("venue_name", event.getVenue().getName());
 		model.addAttribute("longitude",event.getVenue().getLongitude());
 		model.addAttribute("latitude",event.getVenue().getLatitude());
-		model.addAttribute("tweet_sucess",false);
 		
 		return "events/details-event";
 	}
@@ -187,13 +186,13 @@ public class EventsController {
 	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.POST,  consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String postTweet(@PathVariable("id") long id, @RequestBody @Valid @ModelAttribute Tweet tweet, Model model) throws TwitterException
 	{
-		TwitterUtils.createTweet(tweet.getContent());
+		//TwitterUtils.createTweet(tweet.getContent());
 		tweet.setTime(java.time.LocalTime.now());
 		tweet.setDate(java.time.LocalDate.now());
 		twitterService.save(tweet);
 		model.addAttribute("tweet_content", tweet.getContent());
 		model.addAttribute("tweet_success", true);
-		return "redirect:" + Long.toString(id);
+		return getEvent(id, model);
 	}
 	
 }

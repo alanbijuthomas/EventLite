@@ -14,6 +14,7 @@
 </head>
 <body>
 	<div layout:fragment="content">
+	
 		<h1>More information on the Event</h1>
 
 		<table class="table table-striped table-hover">
@@ -69,8 +70,9 @@
 					</form>
 				</tr>
 			</tbody>
-		</table>
-			
+		</table>	
+		<div id='confirm' th:if="${tweet_success}" class="alert alert-success" role="alert" th:text="${tweet_content}">*</div>
+		
 			<form action="#" th:action="@{/events/details-event/{id}(id=${id})}" th:object="${tweet}" th:method="post">
 				<div class="form-group col-md-12">
 					<label>Post a Tweet:</label>
@@ -80,7 +82,7 @@
 					<input type="submit" class="btn btn-primary" value="Send Tweet"/>
 				</div>
 			</form>
-		<div id='map'></div>
+		<div id='map'></div>        
         
      <script th:inline="javascript">
 	  
