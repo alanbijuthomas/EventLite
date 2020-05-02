@@ -66,6 +66,19 @@ public class EventsController {
 	public String getAllEvents(Model model) {
 		List<Event> futureList = new ArrayList<Event>();
 		List<Event> pastList = new ArrayList<Event>();
+		List<Object> tweets;
+		
+		try
+		{	
+			tweets = TwitterUtils.getTimeLine().subList(0, 5);
+		}
+		catch(TwitterException e)
+		{
+			System.err.println(e.getErrorMessage());
+			tweets = new ArrayList<Object>();
+		}
+		
+		
 		
 		Iterator<Event> allEvents = eventService.findAll().iterator();
 		while(allEvents.hasNext())
@@ -79,7 +92,8 @@ public class EventsController {
 		
 		model.addAttribute("future_events", futureList);
 		model.addAttribute("past_events", pastList);
-
+		model.addAttribute("tweets", tweets);
+		
 		return "events/index";
 	}
 	
