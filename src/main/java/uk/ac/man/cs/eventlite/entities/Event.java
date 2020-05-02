@@ -41,6 +41,7 @@ public class Event {
 	@ManyToOne
 	@NotNull(message = "The event must have a venue.")
 	private Venue venue;
+	
 
 	public Event() {
 	}

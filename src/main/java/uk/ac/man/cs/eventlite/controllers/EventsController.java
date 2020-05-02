@@ -3,6 +3,7 @@ package uk.ac.man.cs.eventlite.controllers;
 import javax.validation.Valid;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,22 +32,34 @@ import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import com.mapbox.geojson.Point;
 
 import retrofit2.Response;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import uk.ac.man.cs.eventlite.dao.EventRepository;
 import uk.ac.man.cs.eventlite.dao.EventService;
+import uk.ac.man.cs.eventlite.dao.TwitterService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
+import uk.ac.man.cs.eventlite.entities.Tweet;
+import uk.ac.man.cs.eventlite.util.TwitterUtils;
 
 @Controller @RequestMapping(value = "/events", produces = {MediaType.TEXT_HTML_VALUE}) 
 public class EventsController {
-
+	
 	@Autowired
 	private EventService eventService;
 	
 	@Autowired
 	private VenueService venueService;
 
+	@Autowired
+	private TwitterService twitterService;
+	
 	@GetMapping
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
@@ -110,7 +123,7 @@ public class EventsController {
 		model.addAttribute("venue_name", event.getVenue().getName());
 		model.addAttribute("longitude",event.getVenue().getLongitude());
 		model.addAttribute("latitude",event.getVenue().getLatitude());
-		
+		model.addAttribute("tweet_sucess",false);
 		
 		return "events/details-event";
 	}
@@ -169,6 +182,18 @@ public class EventsController {
 		eventService.deleteEventById(id);
 
 		return "redirect:/events";
+	}
+	
+	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.POST,  consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String postTweet(@PathVariable("id") long id, @RequestBody @Valid @ModelAttribute Tweet tweet, Model model) throws TwitterException
+	{
+		TwitterUtils.createTweet(tweet.getContent());
+		tweet.setTime(java.time.LocalTime.now());
+		tweet.setDate(java.time.LocalDate.now());
+		twitterService.save(tweet);
+		model.addAttribute("tweet_content", tweet.getContent());
+		model.addAttribute("tweet_success", true);
+		return "redirect:" + Long.toString(id);
 	}
 	
 }
