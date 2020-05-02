@@ -1,12 +1,16 @@
 package uk.ac.man.cs.eventlite.controllers;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -27,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
@@ -120,5 +125,52 @@ public class VenuesControllerTest {
 		
 		verify(venueService, atLeastOnce()).findAllByNameContainingIgnoreCase("t");
 		verifyZeroInteractions(event);
+	}
+	
+	@Test
+	@WithMockUser(roles= "ADMINISTRATOR")
+	public void deleteVenueWithAdmin() throws Exception {
+		long id = 1234;
+		Venue venue = mock(Venue.class);
+		
+		when(venueService.findOne(id)).thenReturn(venue);
+				
+		mvc.perform(delete("/venues/{id}", id).accept(MediaType.TEXT_HTML).with(csrf()))
+					.andExpect(status().isFound())
+					.andExpect(view().name("redirect:/venues"))
+					.andExpect(handler().methodName("deleteVenue"));
+		
+		verify(venueService).deleteById(id);
+	}
+	
+	@Test
+	public void deleteVenueWithNoAccess() throws Exception {
+		long id = 1234;
+		Venue venue = mock(Venue.class);
+		
+		when(venueService.findOne(id)).thenReturn(venue);
+				
+		mvc.perform(delete("/venues/{id}", id).accept(MediaType.TEXT_HTML).with(csrf()))
+					.andExpect(status().isFound());
+		
+		verify(venueService, never()).deleteById(id);
+	}
+	
+	@Test
+	@WithMockUser(roles= "ADMINISTRATOR")
+	public void deleteVenueWithEvents() throws Exception {
+		long id = 1234;
+		Venue venue = mock(Venue.class);
+		Event event = mock(Event.class);
+		venue.addEvent(event);
+		
+		when(venueService.findOne(id)).thenReturn(venue);
+				
+		mvc.perform(delete("/venues/{id}", id).accept(MediaType.TEXT_HTML).with(csrf()))
+					.andExpect(status().isFound())
+					.andExpect(view().name("redirect:/venues"))
+					.andExpect(handler().methodName("deleteVenue"));
+		
+		verify(venueService).deleteById(id);
 	}
 }
