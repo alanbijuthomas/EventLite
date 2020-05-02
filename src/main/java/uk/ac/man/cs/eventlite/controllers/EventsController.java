@@ -3,6 +3,7 @@ package uk.ac.man.cs.eventlite.controllers;
 import javax.validation.Valid;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -66,16 +67,37 @@ public class EventsController {
 	public String getAllEvents(Model model) {
 		List<Event> futureList = new ArrayList<Event>();
 		List<Event> pastList = new ArrayList<Event>();
-		List<Status> tweets;
+		List<Status> statuses;
+		List<Tweet> tweets = new ArrayList<Tweet>();
 		
 		try
 		{	
-			tweets = TwitterUtils.getTimeLine().subList(0, 5);
+			statuses = TwitterUtils.getTimeLine().subList(0, 5);
 		}
 		catch(TwitterException e)
 		{
 			System.err.println(e.getErrorMessage());
-			tweets = new ArrayList<Status>();
+			statuses = new ArrayList<Status>();
+		}
+		
+		Iterator<Status> statusItr = statuses.iterator();
+		while(statusItr.hasNext())
+		{
+			Status currentStatus = statusItr.next();
+			Tweet tweet = new Tweet() {
+				String url = "https://twitter.com/eventlitef15_20/status/" +  currentStatus.getId();
+				String date = makeDate();
+				
+				public String makeDate()
+				{
+					String pattern = "MM/dd/yyyy HH:mm:ss";
+					DateFormat df = new SimpleDateFormat(pattern);
+					return df.format(currentStatus.getCreatedAt());
+				}
+			};
+			tweet.setContent(currentStatus.getText());
+			tweet.setDate(currentStatus.getCreatedAt());
+			tweets.add(tweet);
 		}
 		
 		
