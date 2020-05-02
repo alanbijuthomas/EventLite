@@ -12,6 +12,7 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.handler;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -108,7 +109,10 @@ public class VenuesControllerTest {
 		when(venueService.findAllByNameContainingIgnoreCase(null)).thenReturn(Collections.<Venue> singletonList(venue));
 		
 		mvc.perform(get("/venues/search-by-venue-name?search=t").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
-		.andExpect(view().name("venues/index")).andExpect(handler().methodName("searchVenueName"));
+		.andExpect(view().name("venues/index")).andExpect(handler().methodName("searchVenueName"))
+		.andExpect(model().attributeExists("venue_search"))
+		.andExpect(model().attributeExists("venues_with_events_searched"))
+		.andExpect(model().attributeExists("empty_venues_searched"));
 		
 		verify(venueService, atLeastOnce()).findAllByNameContainingIgnoreCase("t");
 		verifyZeroInteractions(event);
@@ -121,10 +125,76 @@ public class VenuesControllerTest {
 		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(venue));
 		
 		mvc.perform(get("/venues/search-by-venue-name?search=t").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
-		.andExpect(view().name("venues/index")).andExpect(handler().methodName("searchVenueName"));
+		.andExpect(view().name("venues/index")).andExpect(handler().methodName("searchVenueName"))
+		.andExpect(model().attributeExists("venue_search"))
+		.andExpect(model().attributeExists("venues_with_events_searched"))
+		.andExpect(model().attributeExists("empty_venues_searched"));
 		
 		verify(venueService, atLeastOnce()).findAllByNameContainingIgnoreCase("t");
 		verifyZeroInteractions(event);
+	}
+	
+	@Test
+	public void viewVenuesTest() throws Exception
+	{
+		when(venueService.findAll()).thenReturn(Collections.<Venue> singletonList(venue));
+		
+		mvc.perform(get("/venues").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("venues/index")).andExpect(handler().methodName("getAllVenues"))
+		.andExpect(model().attributeExists("venues"))
+		.andExpect(model().attributeExists("venues_with_events"))
+		.andExpect(model().attributeExists("empty_venues"));
+		
+		verify(venueService, atLeastOnce()).findAll();
+		verifyZeroInteractions(event);
+	}
+	
+	@Test
+	public void detailedVenuesTest() throws Exception
+	{
+		Venue v = new Venue();
+		v.setName("Venue");
+		v.setCapacity(1);
+		v.setAddress("University of Manchester");
+		v.setPostcode("M13 9PL");
+		v.setId(0);
+
+		when(venueService.findOne(0)).thenReturn(v);
+		
+		mvc.perform(get("/venues/details-venue/0").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("venues/details-venue")).andExpect(handler().methodName("getVenue"))
+		.andExpect(model().attributeExists("id")).andExpect(model().attributeExists("name"))
+		.andExpect(model().attributeExists("address")).andExpect(model().attributeExists("postcode"));
+
+		verify(venueService).findOne(0);
+		verifyZeroInteractions(event);
+		verifyZeroInteractions(venue);
+	}
+	
+	@Test
+	public void addVenueMethodTest() throws Exception
+	{
+		Venue v = new Venue();
+		v.setName("Venue");
+		v.setCapacity(1);
+		
+		when(venueService.findAll()).thenReturn(Collections.<Venue>singletonList(v));
+		
+		mvc.perform(get("/venues/new-venue").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("venues/new-venue")).andExpect(handler().methodName("newVenue"));
+	}
+	
+	@Test
+	public void updateVenueMethodTest() throws Exception
+	{
+		Venue v = new Venue();
+		v.setName("Venue");
+		v.setCapacity(1);
+		
+		when(venueService.findOne(0)).thenReturn(v);
+		
+		mvc.perform(get("/venues/update/0").accept(MediaType.TEXT_HTML)).andExpect(status().isOk())
+		.andExpect(view().name("venues/update-venue")).andExpect(handler().methodName("updateVenue"));
 	}
 	
 	@Test
