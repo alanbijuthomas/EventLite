@@ -55,5 +55,4 @@ public class Tweet {
 		this.time = time;
 	}
 
-	
 }

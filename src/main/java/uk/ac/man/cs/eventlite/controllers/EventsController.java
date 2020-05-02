@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -186,12 +187,26 @@ public class EventsController {
 	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.POST,  consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
 	public String postTweet(@PathVariable("id") long id, @RequestBody @Valid @ModelAttribute Tweet tweet, Model model) throws TwitterException
 	{
-		//TwitterUtils.createTweet(tweet.getContent());
+		Twitter twitter = TwitterUtils.getTwitterInstance();
+		boolean sent_success = false, sent_failure = false;
+		String message;
+		try
+		{
+			Status status = twitter.updateStatus(tweet.getContent());
+			sent_success = true;
+			message = "Your Tweet: " + status.getText() + " was posted";
+		}
+		catch(TwitterException e)
+		{
+			message = "Twitter could not be posted: " + e.getErrorMessage();
+			sent_failure = true;
+		}
 		tweet.setTime(java.time.LocalTime.now());
 		tweet.setDate(java.time.LocalDate.now());
 		twitterService.save(tweet);
-		model.addAttribute("tweet_content", tweet.getContent());
-		model.addAttribute("tweet_success", true);
+		model.addAttribute("tweet_content", message);
+		model.addAttribute("tweet_success", sent_success);
+		model.addAttribute("tweet_failure", sent_failure);
 		return getEvent(id, model);
 	}
 	

@@ -16,11 +16,7 @@ public abstract class TwitterUtils {
 	    private static final String API_KEY = "5id5Sn88Q4LLC4ItpfbHARaGG";
 	    private static final String API_KEY_SECRET = "XT59TNHSDwghmtVVmuGgV09Cf0c5NHo2vV9eczLHEQAmSBLcs8";
 	   
-	    public static Status createTweet(String tweet) throws TwitterException {
-	        Twitter twitter = getTwitterInstance();
-	        return twitter.updateStatus(tweet);        
-	    }
-	    
+	   
 	    public static List<String> getTimeLine() throws TwitterException {
 	        Twitter twitter = getTwitterInstance();
 	         

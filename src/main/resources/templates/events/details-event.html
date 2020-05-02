@@ -71,19 +71,26 @@
 				</tr>
 			</tbody>
 		</table>	
+
 		<div id='confirm' th:if="${tweet_success}" class="alert alert-success" role="alert" th:text="${tweet_content}">*</div>
+		<div id='failed' th:if="${tweet_failed}" class="alert alert-danger" role="alert" th:text="${tweet_content}">*</div>
+		
 		
 			<form action="#" th:action="@{/events/details-event/{id}(id=${id})}" th:object="${tweet}" th:method="post">
 				<div class="form-group col-md-12">
-					<label>Post a Tweet:</label>
+					<label>Share the Event</label>
 					<input
 						class="form-control" type="text" name="content" id="content"
 						th:value="${name}" autofocus="autofocus"/>
-					<input type="submit" class="btn btn-primary" value="Send Tweet"/>
+					<button type="submit" class="btn btn-primary" value="Send Tweet"><span class="spinner-grow spinner-grow-sm"></span> Send Tweet</button>
 				</div>
 			</form>
-		<div id='map'></div>        
-        
+
+	
+	<div id='map'></div>        
+	
+	    
+    <!-- end of tweet interface -->
      <script th:inline="javascript">
 	  
 	    var lat = [[${latitude}]];
