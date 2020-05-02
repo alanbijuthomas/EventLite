@@ -44,8 +44,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue testVenueOne = new Venue();
 			testVenueOne.setName("testVenueOne");
 			testVenueOne.setCapacity(1);
-			testVenueOne.setAddress("Address 1");
-			testVenueOne.setPostcode("Postcode 1");
+			testVenueOne.setAddress("University of Manchester");
+			testVenueOne.setPostcode("M13 9PL");
 			testVenueOne.setId(1);
 			venueService.save(testVenueOne);
 			log.info("Attempting to add an example venue.");
@@ -54,8 +54,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue testVenueTwo = new Venue();
 			testVenueTwo.setName("testVenueTwo");
 			testVenueTwo.setCapacity(1);
-			testVenueTwo.setAddress("Address 2");
-			testVenueTwo.setPostcode("Postcode 2");
+			testVenueTwo.setAddress("Renold Building");
+			testVenueTwo.setPostcode("M1 7JR");
 			testVenueTwo.setId(2);
 			venueService.save(testVenueTwo);
 			log.info("Attempting to add an example venue.");
@@ -64,8 +64,8 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue testVenueThree = new Venue();
 			testVenueThree.setName("testVenueThree");
 			testVenueThree.setCapacity(1);
-			testVenueThree.setAddress("Address 3");
-			testVenueThree.setPostcode("Postcode 3");
+			testVenueThree.setAddress("Kilburn Building");
+			testVenueThree.setPostcode("M13 9PL");
 			testVenueThree.setId(3);
 			venueService.save(testVenueThree);
 			log.info("Attempting to add an example venue.");
