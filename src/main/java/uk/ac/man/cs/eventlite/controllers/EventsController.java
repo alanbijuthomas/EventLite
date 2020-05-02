@@ -66,7 +66,7 @@ public class EventsController {
 	public String getAllEvents(Model model) {
 		List<Event> futureList = new ArrayList<Event>();
 		List<Event> pastList = new ArrayList<Event>();
-		List<Object> tweets;
+		List<Status> tweets;
 		
 		try
 		{	
@@ -75,7 +75,7 @@ public class EventsController {
 		catch(TwitterException e)
 		{
 			System.err.println(e.getErrorMessage());
-			tweets = new ArrayList<Object>();
+			tweets = new ArrayList<Status>();
 		}
 		
 		
@@ -209,14 +209,16 @@ public class EventsController {
 			Status status = twitter.updateStatus(tweet.getContent());
 			sent_success = true;
 			message = "Your Tweet: " + status.getText() + " was posted";
+			tweet.setDate(status.getCreatedAt());
 		}
 		catch(TwitterException e)
 		{
 			message = "Twitter could not be posted: " + e.getErrorMessage();
 			sent_failure = true;
+			tweet.setDate(new java.util.Date());
 		}
+		
 		tweet.setTime(java.time.LocalTime.now());
-		tweet.setDate(java.time.LocalDate.now());
 		twitterService.save(tweet);
 		model.addAttribute("tweet_content", message);
 		model.addAttribute("tweet_success", sent_success);

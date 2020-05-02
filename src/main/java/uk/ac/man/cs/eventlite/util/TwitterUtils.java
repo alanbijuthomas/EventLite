@@ -17,11 +17,10 @@ public abstract class TwitterUtils {
 	    private static final String API_KEY_SECRET = "XT59TNHSDwghmtVVmuGgV09Cf0c5NHo2vV9eczLHEQAmSBLcs8";
 	   
 	   
-	    public static List<Object> getTimeLine() throws TwitterException {
+	    public static List<Status> getTimeLine() throws TwitterException {
 	        Twitter twitter = getTwitterInstance();
 	         
-	        return (List<Object>) twitter.getHomeTimeline().stream()
-	          .map(item -> (Object)item.getText())
+	        return (List<Status>) twitter.getHomeTimeline().stream()
 	          .collect(Collectors.toList());
 	    }
 	    

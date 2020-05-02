@@ -2,6 +2,7 @@ package uk.ac.man.cs.eventlite.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,12 +26,12 @@ public class Tweet {
 	
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate date;
+	private Date date;
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
 	@DateTimeFormat(pattern = "HH:mm")
 	private LocalTime time;
-
+	
 	public String getContent() {
 		return content;
 	}
@@ -39,12 +40,12 @@ public class Tweet {
 		this.content = content;
 	}
 	
-	public LocalDate getDate() {
-		return date;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
-	public void setDate(LocalDate date) {
-		this.date = date;
+	public Date getDate() {
+		return date;
 	}
 	
 	public LocalTime getTime() {
@@ -54,5 +55,6 @@ public class Tweet {
 	public void setTime(LocalTime time) {
 		this.time = time;
 	}
+
 
 }
