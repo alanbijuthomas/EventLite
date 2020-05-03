@@ -13,19 +13,30 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import uk.ac.man.cs.eventlite.dao.EventService;
+import uk.ac.man.cs.eventlite.dao.TwitterService;
 import uk.ac.man.cs.eventlite.entities.Event;
+import uk.ac.man.cs.eventlite.entities.Tweet;
 
 @RestController
 @RequestMapping(value = "/api/events", produces = { MediaType.APPLICATION_JSON_VALUE, MediaTypes.HAL_JSON_VALUE })
 public class EventsControllerApi {
 
+	@Autowired
+	private TwitterService twitterService;
+	
 	@Autowired
 	private EventService eventService;
 
@@ -80,5 +91,13 @@ public class EventsControllerApi {
         URI location = linkTo(EventsControllerApi.class).slash(event.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
+    
+    @RequestMapping(value = "/details-event/{id}",method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity< ? > postTweet(@RequestParam Tweet tweet, BindingResult result)
+	{
+		twitterService.save(tweet);
+        URI location = linkTo(EventsControllerApi.class).slash(222).slash(0).toUri();    	
+		return ResponseEntity.created(location).build();
+	}
 
 }

@@ -126,8 +126,30 @@
       </tbody>
     </table>
   	<br>
+  	
+  	<h3>Tweets</h3>
+  	<table class="table table-striped table-hover">
+  		<thead>
+	       <tr>
+	          <th><i class="fas fa-clock"></i> Time</th>
+	          <th><i class="fas fa-twitter"></i> Tweet</th>
+	          <th><i class="fas fa-calendar"></i> URL</th>
+	       </tr>
+	     </thead>
+	    <tbody>
+        <tr th:each="t : ${tweets}">
+          <td th:text="${t.date}">Tweet Time</td>
+          <td th:text="${t.content}">Tweet Content</td>
+          <td> <a th:href="@{https://twitter.com/eventlitef15_20/status/{id}(id=${t.id})}" text="Twitter Link">Tweet URL</a></td>
+        </tr>
+      </tbody>
+  	</table>
+  	
+  	
+  	
   	<div id='map'></div>
   	<script th:inline="javascript">
+  	
   	/*<![CDATA[*/
 
   	L.mapbox.accessToken = 'pk.eyJ1IjoiZXZlbnRlbGl0ZWYxNTIwIiwiYSI6ImNrOWZyNzJ1NTA5NnQzbm1rOXhxcjlua3cifQ.qxpn8OXHCZFD00ydAIVM8w';

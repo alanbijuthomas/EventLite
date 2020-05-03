@@ -3,8 +3,11 @@ package uk.ac.man.cs.eventlite.controllers;
 import javax.validation.Valid;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,27 +34,74 @@ import com.mapbox.api.geocoding.v5.models.GeocodingResponse;
 import com.mapbox.geojson.Point;
 
 import retrofit2.Response;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
+import uk.ac.man.cs.eventlite.dao.EventRepository;
 import uk.ac.man.cs.eventlite.dao.EventService;
+import uk.ac.man.cs.eventlite.dao.TwitterService;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Event;
+import uk.ac.man.cs.eventlite.entities.Tweet;
+import uk.ac.man.cs.eventlite.util.TwitterUtils;
 
 @Controller @RequestMapping(value = "/events", produces = {MediaType.TEXT_HTML_VALUE}) 
 public class EventsController {
-
+	
 	@Autowired
 	private EventService eventService;
 	
 	@Autowired
 	private VenueService venueService;
 
+	@Autowired
+	private TwitterService twitterService;
+	
 	@GetMapping
 	@RequestMapping(method = RequestMethod.GET)
 	public String getAllEvents(Model model) {
 		List<Event> futureList = new ArrayList<Event>();
 		List<Event> pastList = new ArrayList<Event>();
+		List<Status> statuses;
+		List<Tweet> tweets = new ArrayList<Tweet>();
+		
+		try
+		{	
+			statuses = TwitterUtils.getTimeLine().subList(0, 5);
+		}
+		catch(TwitterException e)
+		{
+			System.err.println(e.getErrorMessage());
+			statuses = new ArrayList<Status>();
+		}
+		
+		Iterator<Status> statusItr = statuses.iterator();
+		while(statusItr.hasNext())
+		{
+			Status currentStatus = statusItr.next();
+			Tweet tweet = new Tweet() {
+				String url = "https://twitter.com/eventlitef15_20/status/" +  currentStatus.getId();
+				String date = makeDate();
+				
+				public String makeDate()
+				{
+					String pattern = "MM/dd/yyyy HH:mm:ss";
+					DateFormat df = new SimpleDateFormat(pattern);
+					return df.format(currentStatus.getCreatedAt());
+				}
+			};
+			tweet.setContent(currentStatus.getText());
+			tweet.setDate(currentStatus.getCreatedAt());
+			tweet.setId(currentStatus.getId());
+			tweets.add(tweet);
+		}
+		
+		
 		
 		Iterator<Event> allEvents = eventService.findAll().iterator();
 		while(allEvents.hasNext())
@@ -65,7 +115,8 @@ public class EventsController {
 		
 		model.addAttribute("future_events", futureList);
 		model.addAttribute("past_events", pastList);
-
+		model.addAttribute("tweets", tweets);
+		
 		return "events/index";
 	}
 	
@@ -110,7 +161,6 @@ public class EventsController {
 		model.addAttribute("venue_name", event.getVenue().getName());
 		model.addAttribute("longitude",event.getVenue().getLongitude());
 		model.addAttribute("latitude",event.getVenue().getLatitude());
-		
 		
 		return "events/details-event";
 	}
@@ -169,6 +219,34 @@ public class EventsController {
 		eventService.deleteEventById(id);
 
 		return "redirect:/events";
+	}
+	
+	@RequestMapping(value = "/details-event/{id}", method = RequestMethod.POST,  consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+	public String postTweet(@PathVariable("id") long id, @RequestBody @Valid @ModelAttribute Tweet tweet, Model model) throws TwitterException
+	{
+		Twitter twitter = TwitterUtils.getTwitterInstance();
+		boolean sent_success = false, sent_failure = false;
+		String message;
+		try
+		{
+			Status status = twitter.updateStatus(tweet.getContent());
+			sent_success = true;
+			message = "Your Tweet: " + status.getText() + " was posted";
+			tweet.setDate(status.getCreatedAt());
+		}
+		catch(TwitterException e)
+		{
+			message = "Twitter could not be posted: " + e.getErrorMessage();
+			sent_failure = true;
+			tweet.setDate(new java.util.Date());
+		}
+		
+		tweet.setTime(java.time.LocalTime.now());
+		twitterService.save(tweet);
+		model.addAttribute("tweet_content", message);
+		model.addAttribute("tweet_success", sent_success);
+		model.addAttribute("tweet_failure", sent_failure);
+		return getEvent(id, model);
 	}
 	
 }
