@@ -32,6 +32,7 @@ import com.mapbox.geojson.Point;
 import retrofit2.Response;
 import uk.ac.man.cs.eventlite.dao.VenueService;
 import uk.ac.man.cs.eventlite.entities.Venue;
+import uk.ac.man.cs.eventlite.entities.Event;
 
 @Controller @RequestMapping(value = "/venues", produces = {MediaType.TEXT_HTML_VALUE}) 
 public class VenueController {
