@@ -58,5 +58,12 @@ public class Tweet {
 		this.time = time;
 	}
 
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	public long getId() {
+		return id;
+	}
 
 }

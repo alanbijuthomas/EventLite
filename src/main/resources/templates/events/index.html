@@ -140,7 +140,7 @@
         <tr th:each="t : ${tweets}">
           <td th:text="${t.date}">Tweet Time</td>
           <td th:text="${t.content}">Tweet Content</td>
-          <td> <a th:href="@{t.url}" text="Twitter Link">Tweet URL</a></td>
+          <td> <a th:href="@{https://twitter.com/eventlitef15_20/status/{id}(id=${t.id})}" text="Twitter Link">Tweet URL</a></td>
         </tr>
       </tbody>
   	</table>

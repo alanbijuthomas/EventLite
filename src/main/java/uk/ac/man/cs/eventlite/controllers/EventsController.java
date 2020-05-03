@@ -97,6 +97,7 @@ public class EventsController {
 			};
 			tweet.setContent(currentStatus.getText());
 			tweet.setDate(currentStatus.getCreatedAt());
+			tweet.setId(currentStatus.getId());
 			tweets.add(tweet);
 		}
 		
