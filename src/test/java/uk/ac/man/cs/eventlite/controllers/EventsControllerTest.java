@@ -19,12 +19,14 @@ import static org.hamcrest.Matchers.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Collections;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -77,11 +79,19 @@ public class EventsControllerTest {
 	@InjectMocks
 	private EventsController eventsController;
 
+	private Venue v1;
+	
 	@BeforeEach
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
 		mvc = MockMvcBuilders.standaloneSetup(eventsController).apply(springSecurity(springSecurityFilterChain))
 				.build();
+		v1 = new Venue();
+		v1.setAddress("v1");
+		v1.setCapacity(1);
+		v1.setId(1);
+		v1.setName("v1");
+		v1.setPostcode("v1");
 	}
 
 	@Test
@@ -241,25 +251,7 @@ public class EventsControllerTest {
 
         verify(eventService, never()).save(event);
     }
-	
-// Producing errors.hasErrors() when it shouldn't:
-//	@Test
-//    public void addValidEventTest() throws Exception {
-//		
-//        MultiValueMap<String, String> params = new LinkedMultiValueMap<String,String>();
-//        params.add("name", "Event");
-//        params.add("time", "11:00");
-//        params.add("description", "Event Description");
-//        params.add("venue", "0");
-//        params.add("date", "21-01-2020");
-//
-//        mvc.perform(MockMvcRequestBuilders.post("/events").with(user("Rob").roles(Security.ADMIN_ROLE))
-//        .contentType(MediaType.APPLICATION_FORM_URLENCODED).params(params).accept(MediaType.TEXT_HTML).with(csrf()))
-//        .andExpect(status().isOk()).andExpect(view().name("events/new"))
-//        .andExpect(handler().methodName("createEvent"));
-//
-//        //verify(eventService, atLeastOnce()).save(event);
-//    }
+
 	
 	@Test
 	public void updateEventMethodTest() throws Exception
