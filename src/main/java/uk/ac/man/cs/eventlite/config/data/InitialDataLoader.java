@@ -44,9 +44,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue testVenueOne = new Venue();
 			testVenueOne.setName("testVenueOne");
 			testVenueOne.setCapacity(1);
-			testVenueOne.setAddress("University of Manchester");
-			testVenueOne.setPostcode("M13 9PL");
+			testVenueOne.setAddress("Sackville Street");
+			testVenueOne.setPostcode("M1 3BB");
 			testVenueOne.setId(1);
+			testVenueOne.setLongitude(-2.234332396);
+			testVenueOne.setLatitude(53.47249811);
 			venueService.save(testVenueOne);
 			log.info("Attempting to add an example venue.");
 			
@@ -54,9 +56,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue testVenueTwo = new Venue();
 			testVenueTwo.setName("testVenueTwo");
 			testVenueTwo.setCapacity(1);
-			testVenueTwo.setAddress("Renold Building");
-			testVenueTwo.setPostcode("M1 7JR");
+			testVenueTwo.setAddress("Oxford Road");
+			testVenueTwo.setPostcode("M13 9PL");
 			testVenueTwo.setId(2);
+			testVenueTwo.setLongitude(-2.232966);
+			testVenueTwo.setLatitude(53.465916);
 			venueService.save(testVenueTwo);
 			log.info("Attempting to add an example venue.");
 			
@@ -64,9 +68,11 @@ public class InitialDataLoader implements ApplicationListener<ContextRefreshedEv
 			Venue testVenueThree = new Venue();
 			testVenueThree.setName("testVenueThree");
 			testVenueThree.setCapacity(1);
-			testVenueThree.setAddress("Kilburn Building");
-			testVenueThree.setPostcode("M13 9PL");
+			testVenueThree.setAddress("Charles Street");
+			testVenueThree.setPostcode("M1 7FA");
 			testVenueThree.setId(3);
+			testVenueThree.setLongitude(-2.235273);
+			testVenueThree.setLatitude(53.47448);
 			venueService.save(testVenueThree);
 			log.info("Attempting to add an example venue.");
 			
