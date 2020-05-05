@@ -29,25 +29,25 @@ import uk.ac.man.cs.eventlite.EventLite;
 @SpringBootTest(classes = EventLite.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext(classMode = ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
-public class VenuesControllerIntegrationTest extends AbstractTransactionalJUnit4SpringContextTests {
+public class HomeControllerApiIntegrationTest extends AbstractTransactionalJUnit4SpringContextTests {
 
-    private HttpEntity<String> httpEntity;
+	private HttpEntity<String> httpEntity;
 
-    @Autowired
-    private TestRestTemplate template;
+	@Autowired
+	private TestRestTemplate template;
 
-    @BeforeEach
-    public void setup() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Collections.singletonList(MediaType.TEXT_HTML));
+	@BeforeEach
+	public void setup() {
+		HttpHeaders headers = new HttpHeaders();
+		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        httpEntity = new HttpEntity<String>(headers);
-    }
+		httpEntity = new HttpEntity<String>(headers);
+	}
 
-    @Test
-    public void testGetAllVenues() {
-        ResponseEntity<String> response = template.exchange("/venues", HttpMethod.GET, httpEntity, String.class);
+	@Test
+	public void testGetLinks() {
+		ResponseEntity<String> response = template.exchange("/api", HttpMethod.GET, httpEntity, String.class);
 
-        assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
-    }
+		assertThat(response.getStatusCode(), equalTo(HttpStatus.OK));
+	}
 }
