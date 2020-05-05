@@ -2,6 +2,7 @@ package uk.ac.man.cs.eventlite.entities;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.persistence.ManyToOne;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "events")
-public class Event {
+public class Event implements Comparable<Event>{
 	
 	@Id
 	@GeneratedValue
@@ -92,5 +93,32 @@ public class Event {
 
 	public void setVenue(Venue venue) {
 		this.venue = venue;
+	}
+	
+	public static int getIndexOfNextEventFromNow(List<Event> events) {
+		for (int i = 0; i < events.size(); i++) {
+			Event event = events.get(i);
+			
+			if(event.getDate().compareTo(LocalDate.now()) > 0)
+				return i;
+			else if (event.getDate().compareTo(LocalDate.now()) == 0)
+				if (event.time == null)
+					return i;
+				else if(event.time.compareTo(LocalTime.now()) > 0)
+					return i;
+		}
+		
+		return events.size();
+	}
+	
+	@Override
+	public int compareTo(Event o) {
+		if (this.date.compareTo(o.getDate()) == 0)
+			if(this.time == null || o.getTime() == null || this.time.compareTo(o.getTime()) == 0)
+				return 0;
+			else 
+				return this.time.compareTo(o.getTime());
+		else
+			return this.date.compareTo(o.getDate());
 	}
 }
